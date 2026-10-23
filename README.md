@@ -3,11 +3,13 @@
 Native USB4 RDMA experiments for **two Framework Desktop motherboards** with
 Ryzen AI Max+ 395 / Radeon 8060S and 128 GB memory per host. This branch contains
 lfthht's completion, batching, host-DMA, teardown, cache and CQ-capacity repairs
-on Donnerkeule `e4039b6`, carried forward to the mecattaf fleet's **Linux 7.2.10
-and 7.2.12**. Both fleet kernels build; pair hardware qualification is pending.
+on Donnerkeule `e4039b6`, carried forward to **Linux 7.2.10, 7.2.12 and 7.3.0**.
+All three kernels build; 7.3 also passes a disposable VM lifecycle test.
+Pair hardware qualification is pending.
 The performance knobs remain opt-in.
 
-**[Kernel port and evidence](docs/framework-desktop-kernels.md)** ·
+**[7.3 source changes and evidence](docs/framework-desktop-7-3.md)** ·
+**[7.2 kernel evidence](docs/framework-desktop-kernels.md)** ·
 **[Tonight's attended qualification commands](docs/framework-desktop-tonight.md)**
 
 **[Framework setup and changes](docs/framework-desktop.md)** ·
@@ -18,9 +20,13 @@ The performance knobs remain opt-in.
 - Short 16 MiB host-memory WRITE preflight: **51.67 / 50.20 Gb/s** forward/reverse.
 - Gufo: five paired repetitions at 16K, 32K, 64K and 128K input; 256 output tokens.
 - Original measurements: x86_64 Linux **7.2.6-070206-generic**, AMD NHI **158d / 158e**.
-- Batching ABI allowlist: **7.2.6 / 7.2.10 / 7.2.12**, x86_64, same AMD NHIs.
+- Batching ABI allowlist: **7.2.6 / 7.2.10 / 7.2.12 / 7.3.0**, x86_64, same AMD NHIs.
 - Regression tests execute production functions, including timer races, cache
   ownership, MR bounds, posting order and CQ compatibility.
+
+Tonight's dotfiles PR #610 keeps the separate 7.2 branch pinned at `fb05a7d`.
+This `codex/framework-7-3` branch prepares later 7.3 adoption; it does not change
+the fleet configuration or turn the original 7.2.6 measurements into 7.3 results.
 
 The 80 Gb/s negotiated link sum and the measured payload rates are distinct.
 The remaining bulk completion limit is unresolved. The code remains an

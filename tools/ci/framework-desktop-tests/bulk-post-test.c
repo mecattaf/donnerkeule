@@ -107,6 +107,12 @@ int main(void) {
         assert(list_empty(&ring.in_flight));
         return 0;
     }
+#ifdef RING_FLAG_NO_INTERRUPT
+    ring.flags |= RING_FLAG_NO_INTERRUPT;
+    assert(tbv_dmabuf_post_bulk(&lane,true,0,4)==-EAGAIN && writes==0 && barriers==0);
+    assert(ring.head==6 && list_empty(&ring.in_flight));
+    ring.flags &= ~RING_FLAG_NO_INTERRUPT;
+#endif
     assert(tbv_dmabuf_post_bulk(&lane,true,4,2)==-EINVAL && writes==0);
     ring.running=false;
     assert(tbv_dmabuf_post_bulk(&lane,true,0,4)==-ESHUTDOWN && writes==0);

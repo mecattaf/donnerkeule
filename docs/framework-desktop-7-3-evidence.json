@@ -1,0 +1,250 @@
+{
+  "date_utc": "2026-10-23T17:04:56.963298+00:00",
+  "branch": "codex/framework-7-3",
+  "previous_port_revision": "fb05a7d210179fa2daaefe3e7bf45bbb4a0b7ff3",
+  "port_source_manifest": "framework-desktop-port-source.json",
+  "source_delta": "framework-desktop-7-3-source-delta.json",
+  "kernels": [
+    {
+      "kernel": "7.2.10",
+      "release": "7.2.10",
+      "nixpkgs_revision": "94d35c7c05087e8b07373a403c55e97d99ff9af9",
+      "source_audit": {
+        "version": "7.2.10",
+        "source_sha256": {
+          "drivers/thunderbolt/nhi.c": "b8b78b1a524844c1487dbd2b1ef696610ebc8720caf13a2d2d8ccecfd4c989b4",
+          "drivers/thunderbolt/nhi.h": "f0026407a0005510e34cb331dba9b4a360bb93bdb5c63cd0cec0f2273fdc1e5c",
+          "drivers/thunderbolt/nhi_regs.h": "e98150dae51b46c1d83d92c0de0fe2b925e61e220a1a14d8cd200a153fc81e45",
+          "include/linux/thunderbolt.h": "e883a1c144eb50ea09313631d845400a1bcd47a57334cf24eb19a97cde5c66ee"
+        },
+        "hardware_qualified": false
+      },
+      "modules": [
+        {
+          "profiling": true,
+          "package": "/nix/store/046w8bd7cjarnsi1f3q1vnr97mw7gswp-thunderbolt-ibverbs-0.4.0",
+          "sha256": "cc0deecf5ebdad19ac098fe224012a0ba9e85cbb7bf77a751195a49e21998568",
+          "vermagic": "7.2.10 SMP preempt mod_unload",
+          "signature_id": null,
+          "certificate_sha256": null,
+          "probe_without_id_selected": false
+        },
+        {
+          "profiling": false,
+          "package": "/nix/store/xckdv55jp8x8gw1ynpyp46dq95ydicsg-thunderbolt-ibverbs-0.4.0",
+          "sha256": "5026587695f8fd957713f6e7219cc64bb9177c6a45f37fa7ee15d045fe6ce80e",
+          "vermagic": "7.2.10 SMP preempt mod_unload",
+          "signature_id": null,
+          "certificate_sha256": null,
+          "probe_without_id_selected": false
+        }
+      ],
+      "hardware_qualified": false,
+      "assembled_modules_tree": "/nix/store/fk8r4chnrdj8bx0acczgqyn617n1p2j5-kernel-modules"
+    },
+    {
+      "kernel": "7.2.12",
+      "release": "7.2.12",
+      "nixpkgs_revision": "dce1caf58d1a943af38b376e824a0d036ec3eea7",
+      "source_audit": {
+        "version": "7.2.12",
+        "source_sha256": {
+          "drivers/thunderbolt/nhi.c": "b8b78b1a524844c1487dbd2b1ef696610ebc8720caf13a2d2d8ccecfd4c989b4",
+          "drivers/thunderbolt/nhi.h": "f0026407a0005510e34cb331dba9b4a360bb93bdb5c63cd0cec0f2273fdc1e5c",
+          "drivers/thunderbolt/nhi_regs.h": "e98150dae51b46c1d83d92c0de0fe2b925e61e220a1a14d8cd200a153fc81e45",
+          "include/linux/thunderbolt.h": "e883a1c144eb50ea09313631d845400a1bcd47a57334cf24eb19a97cde5c66ee"
+        },
+        "hardware_qualified": false
+      },
+      "modules": [
+        {
+          "profiling": true,
+          "package": "/nix/store/hr6qvcqwfl3yivjirylvq1821pwr8x8a-thunderbolt-ibverbs-0.4.0",
+          "sha256": "bd36ebcf254582a88a73796fda27787f03a7c760c29bfd73df38f4b95c491283",
+          "vermagic": "7.2.12 SMP preempt mod_unload",
+          "signature_id": "PKCS#7",
+          "certificate_sha256": "44fe321b77f12062d35145f86f98c8324f96eb3218b45d8c62346f46a8d59189",
+          "probe_without_id_selected": false
+        },
+        {
+          "profiling": false,
+          "package": "/nix/store/qn8xqf3bd2f9wkzjhyj0gn0m3pysndka-thunderbolt-ibverbs-0.4.0",
+          "sha256": "13e8e77c8cf7caac88bcf1c943650f4b0a8b1bb1982b1f025cc00b421b5be91b",
+          "vermagic": "7.2.12 SMP preempt mod_unload",
+          "signature_id": "PKCS#7",
+          "certificate_sha256": "0408be0ebd80bf86e379542140109186fa19ad1bef0b827c3857ef17aacfa178",
+          "probe_without_id_selected": false
+        }
+      ],
+      "hardware_qualified": false,
+      "assembled_modules_tree": "/nix/store/pdrcl2jv3dcm0d29b618z1sinfzaqqrv-kernel-modules"
+    },
+    {
+      "kernel": "7.3",
+      "release": "7.3.0",
+      "nixpkgs_revision": "dce1caf58d1a943af38b376e824a0d036ec3eea7",
+      "source_audit": {
+        "version": "7.3",
+        "source_sha256": {
+          "drivers/infiniband/core/device.c": "c1951c0a180f83a3189d513d9148f3df2c4ccd1846ab2ef80a2d402855c18a27",
+          "drivers/infiniband/core/umem.c": "e022d142174b8355a0f925764b077e9bc5adfe610eb07e6965814c485046a1ab",
+          "drivers/infiniband/core/umem_dmabuf.c": "5f18abde2b85cab629df49ea26952130c193c616fe30bdb4620e18efc827bccd",
+          "drivers/infiniband/core/uverbs_cmd.c": "b2114b5332ef487c3c95c53f0901f90859fc8a628adcfb8f76672798f34b08a9",
+          "drivers/infiniband/core/uverbs_std_types_cq.c": "0c58f38ecbd09a0d16d2e456880b2bdb6b0c32f794f9a9f0bb964a9881d29b8f",
+          "drivers/infiniband/core/uverbs_std_types_mr.c": "80dc1ce415950a96fa23d57fba326c3307d588c79f2a4b4dbaf1943f7628406e",
+          "drivers/infiniband/core/uverbs_std_types_qp.c": "fc29785efa10ca5f771f325b95f54ff36d20e28529ed6c5aba7971f0e9081bb7",
+          "drivers/infiniband/core/verbs.c": "9a070d7909d968068a74b6216594bc1ee97846860f316175a61842032e6a4d73",
+          "drivers/thunderbolt/domain.c": "0eee4613cb197c09271193e28bce5e81f222b3e533d0ccd01f8a5a99886781a0",
+          "drivers/thunderbolt/nhi.c": "5b680a6d921d9f7ec5dd48e5348e645b1bdca66273119cc9b5bdece899a09169",
+          "drivers/thunderbolt/nhi.h": "f0026407a0005510e34cb331dba9b4a360bb93bdb5c63cd0cec0f2273fdc1e5c",
+          "drivers/thunderbolt/nhi_regs.h": "e98150dae51b46c1d83d92c0de0fe2b925e61e220a1a14d8cd200a153fc81e45",
+          "drivers/thunderbolt/xdomain.c": "44fc106405ba99a690f28ea3d5447120040bbae3c46ec3322628452b55651a89",
+          "include/linux/thunderbolt.h": "77314f7a9762cbd0296024a1cfe7a1fc54c9ef2568db0229ad614758e1cd22eb",
+          "include/rdma/ib_umem.h": "ad0ad205379ca5f217d37d1536ace9bd8a5498de3e104bd493722c10855e5d01",
+          "include/rdma/ib_verbs.h": "d7305b561e22a49c5f9247496ff106e21791062c5f8dd40996bf002fa0d046b3"
+        },
+        "hardware_qualified": false
+      },
+      "modules": [
+        {
+          "profiling": true,
+          "package": "/nix/store/fbsiprjh7l72dj1pidahxklizq7b9d0k-thunderbolt-ibverbs-0.4.0",
+          "sha256": "301951be516ad0675c4f30c0b88d4eea24840a2a7f4c7ded53146b1c3ef4b396",
+          "vermagic": "7.3.0 SMP preempt mod_unload",
+          "signature_id": "PKCS#7",
+          "certificate_sha256": "52138cc9b6de9b9878b14fe300bd9f5129ec7e72f5a3935d67f415d4c7699574",
+          "probe_without_id_selected": true
+        },
+        {
+          "profiling": false,
+          "package": "/nix/store/2c9vj87rw36j877422bphmn09miypqv6-thunderbolt-ibverbs-0.4.0",
+          "sha256": "bb2ca8fade0ba916ff3551bbe0f96b2af5100914545d052a24f6622f3c8f3bd6",
+          "vermagic": "7.3.0 SMP preempt mod_unload",
+          "signature_id": "PKCS#7",
+          "certificate_sha256": "2f728ee0f8faa4a0780839ab781f67ab4654ee8b0302b6e2d0e6eedc25b3aa7c",
+          "probe_without_id_selected": true
+        }
+      ],
+      "hardware_qualified": false,
+      "assembled_modules_tree": "/nix/store/ac5zbkd77jx9asz5767wqcwp4padlf72-kernel-modules"
+    }
+  ],
+  "kernel_7_3": {
+    "source": "/nix/store/c6pm40ggi8yfbs2rgd371m3fnqzbia35-linux-7.3.tar.xz",
+    "dev": "/nix/store/0xnqdgag40pq74idcmzbnv76p9gjs4jx-linux-7.3-dev",
+    "stock_image_package": "/nix/store/wjng0666yjjchqkf4dhhksaahhmr0dzz-linux-7.3",
+    "thunderbolt_module_package": "/nix/store/61mc0bsx1d6fifh5zj8szclh2md2mw4l-linux-7.3-modules",
+    "config_sha256": "156aa363358b05ee6ba79c1e76599c924ffd03dd9e0e9a9c3fe85f8d2e03d077",
+    "debug_lock_alloc": false,
+    "module_sig_force": false,
+    "tb_ring_throttling_exported": true,
+    "btf_origin": "packaged thunderbolt.ko.xz, decompressed as a file, with matching kernel.dev vmlinux; not loaded on the host",
+    "btf": {
+      "tb_ring_size": 184,
+      "tb_ring_descriptors_offset": 32,
+      "tb_ring_in_flight_offset": 64,
+      "tb_ring_flags_offset": 124,
+      "tb_ring_lock_key_offset": 184,
+      "tb_ring_lock_key_size": 0,
+      "ring_desc_size": 16,
+      "ring_desc_flags_bits": [
+        84,
+        12
+      ],
+      "ring_desc_time_offset": 12,
+      "tb_nhi_size": 144,
+      "tb_nhi_host_reset_offset": 136
+    },
+    "btf_output_sha256": "ba31028077e878dcf9b573f380390a56e39420463b06b1fa72622b1b1ee12aaf",
+    "btf_output_file": "framework-desktop-7-3-btf.txt"
+  },
+  "vm": {
+    "result": "PASS",
+    "output": "/nix/store/7brq19awl4bk4q7i9d2qilpfbdgqjj1h-vm-test-run-thunderbolt-ibverbs-vm-smoke-7.3-legacy",
+    "command": "~/.local/bin/runtime-test --allow-kvm -- nix build .#hydraJobs.x86_64-linux.vm-smoke.nixos-7-3 --cores 8 --max-jobs 1 -L",
+    "kernel_release": "7.3.0",
+    "profile": "tools/framework-desktop/framework.params",
+    "load_unload_cycles": 4,
+    "configfs_lifecycle": "PASS (synthetic native link)",
+    "batch_abi_supported": 1,
+    "batch_doorbell": true,
+    "poll_us": 25,
+    "pkcs7_signature_present": true,
+    "candidate_module_taint": "OE",
+    "signature_enforcement": false,
+    "boot_verification_message": "stock autofs4 reports missing signature/key; no trusted-signature qualification",
+    "bug_warning_oops_kasan_panic_in_dmesg": false,
+    "usb4_controller": false,
+    "registered_hca": false,
+    "real_qp_or_dma": false,
+    "log_sha256": "5857a6541efa617c41c15d836e413bd80640fb5e19aa50cad2a7d874546e9ddc"
+  },
+  "userspace": {
+    "rdma_core_usb4": "/nix/store/p8rzrvbkw6aydrad52p9dwlbh3bv8lmm-rdma-core-usb4-65.0",
+    "perftest": "/nix/store/0w7g32npxa7a8r6y4ln6g2y598zznd88-perftest-26.04.17",
+    "verbs_smoke_build": "/nix/store/h6i15ghmykq5bphc6sljzyrm8faqvab2-thunderbolt-ibverbs-verbs-smoke-build-0.4.0"
+  },
+  "checks": {
+    "all_six_kernel_builds": "PASS",
+    "full_smoke_suite": "PASS (runtime-test)",
+    "framework_tests": 9,
+    "nhi_source_mutation_rejected": true,
+    "dmabuf_source_mutation_rejected": true,
+    "actual_header_mutation_rejected": true,
+    "unaudited_7_3_1_and_7_4_rejected": true,
+    "syntax": "PASS",
+    "port_source": "PASS (50 driver/provider files)",
+    "host_module_load": false,
+    "host_activation": false,
+    "flake_evaluation": "PASS (nix flake check --no-build --system x86_64-linux)",
+    "all_three_modules_trees": "PASS"
+  },
+  "unproven": [
+    "two Framework hosts with both cables",
+    "AMD DMA/IRQ and IOMMU behavior",
+    "real HCA registration and QP lifetime",
+    "host and GPU payload integrity",
+    "Gufo TP2 all-reduce",
+    "perftest throughput/latency and no performance loss",
+    "cable recovery",
+    "trusted module certificates/Secure Boot"
+  ],
+  "hardware_qualified": false,
+  "frozen_7_2_pin_packaging": {
+    "source_revision": "fb05a7d210179fa2daaefe3e7bf45bbb4a0b7ff3",
+    "kernel": "7.2.12",
+    "nixpkgs_revision": "dce1caf58d1a943af38b376e824a0d036ec3eea7",
+    "original_package": "/nix/store/viik42i4a2kafvc4wc8j9jaidg4clldx-thunderbolt-ibverbs-0.4.0",
+    "original_aggregation": "FAIL: extra/thunderbolt_ibverbs.ko.cer missing",
+    "repair": "nix/frozen-pin-certificate-fix.nix",
+    "repair_package": "/nix/store/lgxi9ihr21fk1i6glqydqj2n56hfn56d-thunderbolt-ibverbs-0.4.0",
+    "repair_module_sha256": "a1869395bdc09ef7fb527be8de6bf9a8d501a4007ae34340b6b3089abeedb9f5",
+    "repair_modules_tree": "/nix/store/gfri5iz94pcn1mhr407kglys447azw2j-kernel-modules",
+    "repair_aggregation": "PASS",
+    "elf_sections": {
+      ".text": {
+        "identical": true,
+        "old_sha256": "9bb387fe25ebebbd1b572df47ccd773c6d7af7bec284c6f831984b1744a15f39",
+        "new_sha256": "9bb387fe25ebebbd1b572df47ccd773c6d7af7bec284c6f831984b1744a15f39"
+      },
+      ".rodata": {
+        "identical": true,
+        "old_sha256": "1de67c2d7629b3fa51a3b3dc2ccbf5baa4f40fe897219672fa1eed3da512b8bc",
+        "new_sha256": "1de67c2d7629b3fa51a3b3dc2ccbf5baa4f40fe897219672fa1eed3da512b8bc"
+      },
+      ".data": {
+        "identical": true,
+        "old_sha256": "4f4077dfc9c253030c43743307fdb88bc5d71e95dca4870c76a4d5820b3ac791",
+        "new_sha256": "4f4077dfc9c253030c43743307fdb88bc5d71e95dca4870c76a4d5820b3ac791"
+      },
+      ".modinfo": {
+        "identical": true,
+        "old_sha256": "74e92a080d4adbbc186ac9ff78e2766917dae3fcd4c8e08b2e95f53795d13d88",
+        "new_sha256": "74e92a080d4adbbc186ac9ff78e2766917dae3fcd4c8e08b2e95f53795d13d88"
+      }
+    },
+    "dotfiles_changed": false,
+    "original_branch_changed": false,
+    "operator_step": "Apply packaging-only consumer override, rebuild both actual 7.2.12 toplevels, record new module hash before qualification."
+  }
+}

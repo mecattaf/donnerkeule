@@ -1,0 +1,437 @@
+{
+  "versions": [
+    "7.2.12",
+    "7.3"
+  ],
+  "scope": [
+    "drivers/thunderbolt/",
+    "drivers/infiniband/core/",
+    "include/rdma/",
+    "include/uapi/rdma/",
+    "include/linux/thunderbolt.h",
+    "include/linux/dma-buf.h",
+    "include/linux/dma-mapping.h",
+    "include/linux/scatterlist.h",
+    "include/linux/mm.h",
+    "include/linux/mm_types.h",
+    "include/linux/pagemap.h"
+  ],
+  "file_counts": {
+    "7.2.12": 200,
+    "7.3": 201,
+    "changed_or_added": 54,
+    "unchanged": 147
+  },
+  "changed_sha256": {
+    "drivers/infiniband/core/Makefile": {
+      "7.2.12": "e4f789a745ceef68c344445cc73690116578cabb364ac56c61b51b54e0f111c3",
+      "7.3": "a7c8a8203dc08c33a8c8e9ff29a1e9f0f78a48dbbacd0831220bb1bc1fdfc284"
+    },
+    "drivers/infiniband/core/addr.c": {
+      "7.2.12": "97fdd44b289c300fd5112c02fa1e9f423e32490abdd1067cb18fde1352f28d6b",
+      "7.3": "6e8bd655d9d18f24228f13124ae7d04cf567bdedbb5192d5ed6f3c705044ab0d"
+    },
+    "drivers/infiniband/core/cgroup.c": {
+      "7.2.12": "a711fbbd0d0699cebbdff186b7a9f32ba9f35ae45c7edc10c88b7d66ae0815d6",
+      "7.3": "88930b72a463ccc152a91190a21f2d623f8599e606c14ed1e343908b90a59930"
+    },
+    "drivers/infiniband/core/cma.c": {
+      "7.2.12": "26494057eaba21887eda8776421512befa303be87def459cc50ef4799a2b2285",
+      "7.3": "ee27eeb174992fb2c08685997d39b3f7c0473548902fe218b9b8dd857390859a"
+    },
+    "drivers/infiniband/core/cma_configfs.c": {
+      "7.2.12": "50299a1206b0943deacde5d766d561d53f7af2679619f4538e6848a4fe6191d4",
+      "7.3": "ab810644ebc7a15b11ef276ed8ba75b9938e80be1181dfd5c6ccc1e0f21bb666"
+    },
+    "drivers/infiniband/core/core_priv.h": {
+      "7.2.12": "97fafafc6d4ff85a3a4f12a31fd952861d965ae5a8507d576ee5e1c0665248bf",
+      "7.3": "2c789f95370f75620d84b49872a7f9050d651e53e49521eca5c56b8fa7a79449"
+    },
+    "drivers/infiniband/core/cq.c": {
+      "7.2.12": "dd84f6ddf15db3ac033a4e773b60653ec700ad887750e055b51e2733e56a18e5",
+      "7.3": "2b07705efd5240d5a8b76aa757890148a481704636cba1e986fc53b49a833a7a"
+    },
+    "drivers/infiniband/core/device.c": {
+      "7.2.12": "2d0e4cc6b6775ac529a0eaeead446a0bd67a47f8c5907f4c3954b2f7747bed44",
+      "7.3": "c1951c0a180f83a3189d513d9148f3df2c4ccd1846ab2ef80a2d402855c18a27"
+    },
+    "drivers/infiniband/core/iwpm_msg.c": {
+      "7.2.12": "89322044610f79902e01c876374bec60a82b37168523ea0aa6be4cf5e4da87e2",
+      "7.3": "94fc2f558d207ec035575353585108b52f29d061b1e23985a427beceb35f269a"
+    },
+    "drivers/infiniband/core/lag.c": {
+      "7.2.12": "9847f525d96de211c1616d3cddd8df44a64be661dbc405cf8d85dd5a695da955",
+      "7.3": "c13b59a638bba82c5551e5087509ebba5c046709889394b8690bb767e2bea9ac"
+    },
+    "drivers/infiniband/core/nldev.c": {
+      "7.2.12": "ba99148dec62877c85c44118f0d411125eb54a2b2cb35c0df9711aeaba165173",
+      "7.3": "8a86f684a2dd981736d53c49ac51a62107f2201feea987f96391e939c757ac77"
+    },
+    "drivers/infiniband/core/rdma_core.h": {
+      "7.2.12": "f0a46bfbcf0904e4379495811eb0bd8662074779939237c9dc73235cc18873a5",
+      "7.3": "76041edbad366c41ab3193d48c6d910fbe0facaa821168ecc61cdeeb1ac217fa"
+    },
+    "drivers/infiniband/core/restrack.c": {
+      "7.2.12": "7687ae9acb89df37acfba658f68745d6c20d8d858172841a56e9ce8a3a30d139",
+      "7.3": "3b8a39419d35c5f97c5654453e73b1888c47682e4c3532e05a5a0a0390b2bcc2"
+    },
+    "drivers/infiniband/core/security.c": {
+      "7.2.12": "92feedbf2a19fea369e60b6531710d09233045a3951348b80e9f170a74b8c554",
+      "7.3": "720831451625f6261cfa009aa86e07c83ce9d609be6d3e05da6d59f55d7c8218"
+    },
+    "drivers/infiniband/core/umem.c": {
+      "7.2.12": "e6f64059fa162c73ad94d3c2eee6156998d88eff58f3a22261f5f81e87ef355a",
+      "7.3": "e022d142174b8355a0f925764b077e9bc5adfe610eb07e6965814c485046a1ab"
+    },
+    "drivers/infiniband/core/umem_dmabuf.c": {
+      "7.2.12": "87ad9f72d7f32d098f421645a1456d025b7bd9827c26077fbcfa125ebf867029",
+      "7.3": "5f18abde2b85cab629df49ea26952130c193c616fe30bdb4620e18efc827bccd"
+    },
+    "drivers/infiniband/core/umem_odp.c": {
+      "7.2.12": "43de1d06aa44d3d7632841c4ec10d7451c29f6cd829ce4539ff21187144b7157",
+      "7.3": "43453510e8fa909b12850439554653cdf699d7abe92a873f645797ce216553a9"
+    },
+    "drivers/infiniband/core/uverbs_std_types_comp_cntr.c": {
+      "7.2.12": null,
+      "7.3": "0171ec213390f36fd632efecb8b0c7d1d13d40186a3bee19e5689b08d55d8e02"
+    },
+    "drivers/infiniband/core/uverbs_std_types_device.c": {
+      "7.2.12": "eb46b78ce0646c36e3c887467e762739e5c2957f87ba57f928b935413c11326f",
+      "7.3": "1ed031699fe0f0a0c6c40ee334da1a327b7935d01771696172548d67f36c0a99"
+    },
+    "drivers/infiniband/core/uverbs_std_types_qp.c": {
+      "7.2.12": "4e235da3bd487a0abb419e85baf9e5a4243b38db395299c69a62202d67cae4e8",
+      "7.3": "fc29785efa10ca5f771f325b95f54ff36d20e28529ed6c5aba7971f0e9081bb7"
+    },
+    "drivers/infiniband/core/uverbs_std_types_srq.c": {
+      "7.2.12": "86bad7b2d8b2dfecd2f4370282077bfa3906ec4c856d0d03228b921afdf033ec",
+      "7.3": "480db27be6a300ef14206ac62f33ba02a4b16471ae5272fefe68227ac4ea9de1"
+    },
+    "drivers/infiniband/core/uverbs_uapi.c": {
+      "7.2.12": "3b9fdead5cffb61810fed9d108b07dedbe61b06d63b2ab582771c94acb08ac5a",
+      "7.3": "cc63551edff68b0f03455f13e9c93d7957fcc4beb066d81366a5e1b98b4bfc1d"
+    },
+    "drivers/infiniband/core/verbs.c": {
+      "7.2.12": "383001673b17e069da98c33dcc20ed19954df42d7bc43205328c37150f6d77b5",
+      "7.3": "9a070d7909d968068a74b6216594bc1ee97846860f316175a61842032e6a4d73"
+    },
+    "drivers/thunderbolt/debugfs.c": {
+      "7.2.12": "4daaacb7d1973f87bab9aa33ba06a82ffc324160b2737ff26312c4c7e2677e5f",
+      "7.3": "321dffeaf1e8378157a3ea7f403619a80774f51a3b2857709a717f879f208e55"
+    },
+    "drivers/thunderbolt/dma_test.c": {
+      "7.2.12": "1bc4a650d3e9c6465b27d6e4d95ada1da7d12089ef6a0effd7d12f71d6154f19",
+      "7.3": "a162ba41f79e92360a3a1ac4c329e1e44c12cfa0634fd53b39097a147b62702d"
+    },
+    "drivers/thunderbolt/domain.c": {
+      "7.2.12": "6c7c0d9a6148e94e2d6f3e4e6817c4b0b7e3b25f5579fde381cbd6c672a9bcf8",
+      "7.3": "0eee4613cb197c09271193e28bce5e81f222b3e533d0ccd01f8a5a99886781a0"
+    },
+    "drivers/thunderbolt/nhi.c": {
+      "7.2.12": "b8b78b1a524844c1487dbd2b1ef696610ebc8720caf13a2d2d8ccecfd4c989b4",
+      "7.3": "5b680a6d921d9f7ec5dd48e5348e645b1bdca66273119cc9b5bdece899a09169"
+    },
+    "drivers/thunderbolt/pci.c": {
+      "7.2.12": "8bc74a23e8925c97e6db08422db29dc82fe50f41e0a3aa444dda82307a887b37",
+      "7.3": "6a0269d971c416f3021b6b14176c776e81bd0fe42018ae559458007520c1d650"
+    },
+    "drivers/thunderbolt/stream.c": {
+      "7.2.12": "f52d041b23c480fc5adcb182a574d1b0cda0c49c366b102feb76d32a7188ed0d",
+      "7.3": "709064e5deee66ace0ff622084266e5049bf11d0166785452bc6e7d28d9f5e55"
+    },
+    "drivers/thunderbolt/switch.c": {
+      "7.2.12": "981a0e577906feba9a00d4df0546cfeea4de06a8a15e439a686e4c1dc77b6f71",
+      "7.3": "cb3e11c220daa808183d072415e1904ea1b5bcf44ad37bb9db869e36a4b65c66"
+    },
+    "drivers/thunderbolt/tb.c": {
+      "7.2.12": "581152eb3cb872992a92ad9dad03e70b5d6592badb84a14c7876b7e8f429f5b0",
+      "7.3": "6bf79bde723ab6049d32ef5523ddd741f902144eefec7228279ad575822030db"
+    },
+    "drivers/thunderbolt/tb.h": {
+      "7.2.12": "00cde540109b1d8ad0c0664745f5faa5e87f9e40a2c7ece93e373cc323fc6a94",
+      "7.3": "eb885b01adee9ec24cf5cdc4c3aecf5ecd7dc6b5a84c9f300c42af6f9c41db7c"
+    },
+    "drivers/thunderbolt/tunnel.c": {
+      "7.2.12": "386d7e4a12a71e7da48d064cb9f4d14c235e7e1ebb10b01a1e0f11ab76e565e6",
+      "7.3": "34f0171ebc71508a8aa0b932c913c5a055a4f0deb7fc181234f4712fc6d2d96d"
+    },
+    "drivers/thunderbolt/xdomain.c": {
+      "7.2.12": "ca67a9703430e252ca3d868ba77d55a2be6cb9e78219c14881d5ef4707f91041",
+      "7.3": "44fc106405ba99a690f28ea3d5447120040bbae3c46ec3322628452b55651a89"
+    },
+    "include/linux/dma-mapping.h": {
+      "7.2.12": "d009bb6776d2a7a64f803b8ce3e63b6008e3df8899d3bc96d5d6d72297345166",
+      "7.3": "96bd5e48a245cd37280d1b1a2de303190aa90b42b22dbeb4d131a09e5cdb912e"
+    },
+    "include/linux/mm.h": {
+      "7.2.12": "9afc342cd0c0135f8a05d030265404a4f80be211166ea748ebdc2a994d73a342",
+      "7.3": "c294397b9973040f9431604ad4088c957ac7101c777a8e4be91d0ea3f2a37e80"
+    },
+    "include/linux/mm_types.h": {
+      "7.2.12": "8410581dcedfde38bc1ea103a64e59bc0ba73dbd57599721ef457ba26903c07b",
+      "7.3": "3f3687985aff94dfa0301edc45158905d13944bed310f3697e65ed61848f0e99"
+    },
+    "include/linux/pagemap.h": {
+      "7.2.12": "4b168461f908aa0723461cb7548b6dc045a4a1afec3e4107ade714f5b7c5f05f",
+      "7.3": "d9a8eaa2add917620c0d6a5101c5e418855eb2b348dc0680c6d545cc4ebadb64"
+    },
+    "include/linux/thunderbolt.h": {
+      "7.2.12": "e883a1c144eb50ea09313631d845400a1bcd47a57334cf24eb19a97cde5c66ee",
+      "7.3": "77314f7a9762cbd0296024a1cfe7a1fc54c9ef2568db0229ad614758e1cd22eb"
+    },
+    "include/rdma/ib_umem.h": {
+      "7.2.12": "7ad6aef2b4d4a79443d4c07d7684b0a4fa84ea9a88f486b90c3a8f030fd10660",
+      "7.3": "ad0ad205379ca5f217d37d1536ace9bd8a5498de3e104bd493722c10855e5d01"
+    },
+    "include/rdma/ib_verbs.h": {
+      "7.2.12": "c5da7a1a68ad7568341db35e9b4b11937b810c15ebfe09028fb8dfed2adee704",
+      "7.3": "d7305b561e22a49c5f9247496ff106e21791062c5f8dd40996bf002fa0d046b3"
+    },
+    "include/rdma/restrack.h": {
+      "7.2.12": "5e90d59ab47ab064ec5ca1b1eacbb2133efa97c58ad59bc12f7c069d95c39e8c",
+      "7.3": "3a33afade7f642a43e8490109accfb215fb3451cb19358af9a8ed426bf06449f"
+    },
+    "include/uapi/rdma/bnxt_re-abi.h": {
+      "7.2.12": "d18b0d3df6785268e32e3f6d6726a12c654fab345c8ecf2cbd5ab7d77f5d15a5",
+      "7.3": "7d9c81e95937299702af5049734644eec3b1f2a0ec0370f7609dfeed58d387f0"
+    },
+    "include/uapi/rdma/efa-abi.h": {
+      "7.2.12": "3ffc34898b8aa760e629d1a5e13389de96bef7f0f109c6c969935e7e994aac1c",
+      "7.3": "ffd9a21997fda6e9aa42e301921648d5c01205f105fdfee2a867a0528e927032"
+    },
+    "include/uapi/rdma/ib_user_ioctl_cmds.h": {
+      "7.2.12": "2f63bebfc4b82cb161588c0b2a90bfc6c8e8219dbcf8f638ca5727731b253abc",
+      "7.3": "7e0a2c38cecfc5b58b1ce1db6f695a6f4412b72ee106954c692a9dd6f7e90beb"
+    },
+    "include/uapi/rdma/ib_user_ioctl_verbs.h": {
+      "7.2.12": "e6442f87d3b33caa1e809900fa633a110f442c50e4d0ef86037dad5d17219bdc",
+      "7.3": "b64428d801c154558e9dba43d3fa3ca70aa7bb33558e04a851acbbaa3e9e0338"
+    },
+    "include/uapi/rdma/ib_user_mad.h": {
+      "7.2.12": "f97b63202ac4f4f34a00ce843f807ba8cdf8daa64119f682dea2e610c27a6f42",
+      "7.3": "ec9d9284b5caa654aa26e7d63ee28d95be1c9dc969f7e01e93a20425a23f9ded"
+    },
+    "include/uapi/rdma/ib_user_verbs.h": {
+      "7.2.12": "e33c36983e8cb7b53faf334579ada2f3eed96b9c9e4a764b546aee4ec69ad5e8",
+      "7.3": "c456c9c6f8b89bf500f543d1d45cd9c122cd4c46b5decb334965d263458d7781"
+    },
+    "include/uapi/rdma/ionic-abi.h": {
+      "7.2.12": "97ddd0e264fa732a7ef25aa24bf7a27294b3770adf48c4b04b4dcf70c7dedd8e",
+      "7.3": "78fa2b8c5884581a0726bcac95e09423473fcb9b268770bd6dcbd0acb4adf43b"
+    },
+    "include/uapi/rdma/irdma-abi.h": {
+      "7.2.12": "597db71935ef0ac7bffc0dc0c03dd69528b2fe48272796f58acb61c847b435d7",
+      "7.3": "0153a18be99c546d93059be794d5f70a80423c1460d967f6d320840d511e199c"
+    },
+    "include/uapi/rdma/mana-abi.h": {
+      "7.2.12": "f0f72ab25f0f259e352c16a52bcfd8389b3381f0c1e72774a2765e77bd2c90a8",
+      "7.3": "dc40014bf0bbe2a5f2a4d552fe3829a6031eac40b687caef704cb733ca624787"
+    },
+    "include/uapi/rdma/mlx5-abi.h": {
+      "7.2.12": "6bedf8e82dc9773705f023476a9bffc8071fb0b4880a64141addda0c4abfb2bc",
+      "7.3": "1718645be956517fc8730b51cc62b866f61bba17b6564493bcdf76fe9b5c2022"
+    },
+    "include/uapi/rdma/mlx5_user_ioctl_cmds.h": {
+      "7.2.12": "6f9fb407b76529ba2e32583480702ce80ab5f2cbe1049d3dcfce0d7e48dd4177",
+      "7.3": "02acaf2daabeb7858fdfbd035baf7276cb94c6c4554bcf448362c6e5a7cf4b4a"
+    },
+    "include/uapi/rdma/rdma_netlink.h": {
+      "7.2.12": "cc98d69f2ff930e97bc65ed29c56a3daec454d33c922ac528179e30eb7d56e25",
+      "7.3": "ad74212515a0b59cae225e8b7132cbe017db43446c7500af90fd10ead22763ed"
+    }
+  },
+  "unchanged_sha256": {
+    "drivers/infiniband/core/agent.c": "3c30acd530cd6e3642497cba3100b6d37d408a2e3b815a0a7ccd766c6e0f0495",
+    "drivers/infiniband/core/agent.h": "bebd38e4b6b079b203785341549fb6ce7ff76ded0eb963347c00be892c8b8313",
+    "drivers/infiniband/core/cache.c": "f3bdd7cf87631e47c76f7727b90c4e6a9ea883d7d174c42e20f6c730c8282791",
+    "drivers/infiniband/core/cm.c": "869ac40e102d9259f3eab7ac6803242fe364612f22f8269016d2352b9a0c490b",
+    "drivers/infiniband/core/cm_msgs.h": "5be1f0380fc14ff1c0119b627f96c729dad79a8af5b190ececb293cfd3d1ee07",
+    "drivers/infiniband/core/cm_trace.c": "91dc3e25438777e37aa1de75ca8f6be68aac9aa4563461dd0bc50d8f09dde65d",
+    "drivers/infiniband/core/cm_trace.h": "630ad9db2bd7c42758e8c47e375c56b3a483bf535e176beeb2b21bbb07e9b395",
+    "drivers/infiniband/core/cma_priv.h": "9c553b6327da1f6e8dcdad7f1e909a7fd3480614ccee54ab80fc118ff85db9cf",
+    "drivers/infiniband/core/cma_trace.c": "6645c0a4bbe97ab555b1f6372e277c8d780704a504488a1215c5b82d8dd4925e",
+    "drivers/infiniband/core/cma_trace.h": "a3d8dac0d24acbb61f9466624220218d480d39d63a7bcd38819ebcc3d3358808",
+    "drivers/infiniband/core/counters.c": "e869dd706e243838caef65ec9568b867aa898ffb88eef50ba17e3328f325e91d",
+    "drivers/infiniband/core/frmr_pools.c": "ecd8dba03760f5f4760bf8e1a905b57a8597941220fb88e4b210eb36d3e31fa8",
+    "drivers/infiniband/core/frmr_pools.h": "ace200d3171e69f23f3d8e3b0310b7f8e4627cabbe0bbad5beabf9e15e867645",
+    "drivers/infiniband/core/ib_core_uverbs.c": "2354b04650c2b155b5b38458dfc148351a233f3db69f830f1edcfb2e874e932b",
+    "drivers/infiniband/core/iter.c": "8464e327faf2b7c7d29a881ab1070ff8fa3393fded4d6715374ecfd840bfbd19",
+    "drivers/infiniband/core/iwcm.c": "b90afba8262e2f60d2b486fe3c66f82fc91ed0ee596ef74357ffabfe49a5bbe0",
+    "drivers/infiniband/core/iwcm.h": "009fe5b43d5c645f48ccee8befab40ba4a508385d434e1b28bf13369ef7b48eb",
+    "drivers/infiniband/core/iwpm_util.c": "cfb6cdd7980e70af0fa5baa746456324e3370dbb9514cba7dd4c1f7ee3b780ec",
+    "drivers/infiniband/core/iwpm_util.h": "c2f87663674d3a28969cd515a7eb0219609df3f930e3d86671463e7d54b6f0f1",
+    "drivers/infiniband/core/mad.c": "ffb886f7ba0ab153fa7c08a6f450faae8337051ee402f4a13f871473d9e3871b",
+    "drivers/infiniband/core/mad_priv.h": "657d4c935c16c269c66a2e2d3c3b62c03357abf2b2ab1c0ba085063eea66b799",
+    "drivers/infiniband/core/mad_rmpp.c": "45088bd35ec34ac0cf269c79d0f0b3a2b638d2bf3c07c5ca479bca2126eed88a",
+    "drivers/infiniband/core/mad_rmpp.h": "959b2f3dc5738bcceaa9840143dbd33a48d0f8a4daee1eaf56800e1a01760cc0",
+    "drivers/infiniband/core/mr_pool.c": "6825fe69dedaa6c8af3e7e3d8dec2ecdb7e5826c91e8ed6397f55d6088f662ec",
+    "drivers/infiniband/core/multicast.c": "22d7f2e6b322d31197e66dfc4ef1889b0b5d85057a002723663b40e534fe89a0",
+    "drivers/infiniband/core/netlink.c": "5c035e0b34ad6b272ab3a73a3a0803ca94cc102ea013105d3787ce2eeedab98f",
+    "drivers/infiniband/core/opa_smi.h": "2655b1f2a09be409ab5bf60c5b2b5684a0677d482be947c28ee39d1c11722451",
+    "drivers/infiniband/core/packer.c": "0c3f0b05f223171c940f4bf227269f1a0b376f8eb8ee67db8b47c3da5cb4b903",
+    "drivers/infiniband/core/rdma_core.c": "b8e942bd0c15fa3e1a39816eb8bdfc00ccb77bc906851f7366f9ded3131f4b02",
+    "drivers/infiniband/core/restrack.h": "86d06449be84d85d4f228a9d3482cf87e3c9f3033fe585b10edc0add781a440e",
+    "drivers/infiniband/core/roce_gid_mgmt.c": "126bf1260114a12c717280c7ca78e19e8a42fe5c1bd22a84cd298be283170124",
+    "drivers/infiniband/core/rw.c": "6fa1d8113890db97b24b3bba24e0f6ad48e2c05969ba4f7f4365e46f8dc85c90",
+    "drivers/infiniband/core/sa.h": "469ff8c9903a36c906ad3fe2ce4c7ad95c7598b66a80a9103d7e27aaaed0e415",
+    "drivers/infiniband/core/sa_query.c": "6fe4ea8f9d365ca25b05ad29924f7b087c3007377c878e09522d3a0600005ce9",
+    "drivers/infiniband/core/smi.c": "3c3b6c17dd56f79ff068c9cc701ded42faf44881a50373cb1ab3a570e061c17c",
+    "drivers/infiniband/core/smi.h": "8b0d74dbf1ceb4af11e46f34c7a2bfd8ed7d7ab674ebc9d45c05fce1f08c2922",
+    "drivers/infiniband/core/sysfs.c": "21f7ceb50646699f5c8e242214112026f2c3ce6c7e74b49402a966bf60392b76",
+    "drivers/infiniband/core/trace.c": "8ae30698c74c3aab300f36e65190c9c73584f090cb008b2bbd755316302d20c7",
+    "drivers/infiniband/core/ucaps.c": "80dd4872ffe03e12021e3228df49104ab4bde68e7349a9c8d67a93f03863a730",
+    "drivers/infiniband/core/ucma.c": "065492232a4ea2c461dea9027809727a2e6813282ea158703e5c5cdafd60424b",
+    "drivers/infiniband/core/ud_header.c": "422fca1bb09804a877524db99c8f3bcef01c370fa750013d97c2a0be0d1fbb62",
+    "drivers/infiniband/core/user_mad.c": "de45a3e275128ede531144c61cac3e7c4024731246663439237ab4c53e24c27f",
+    "drivers/infiniband/core/uverbs.h": "809c7c4b536bfb12da94780b1befe7d3deed22d3a5da39230f5ebef9f04bd7c4",
+    "drivers/infiniband/core/uverbs_cmd.c": "b2114b5332ef487c3c95c53f0901f90859fc8a628adcfb8f76672798f34b08a9",
+    "drivers/infiniband/core/uverbs_flow.c": "d13bff7203fb57bc3b132eea49c8b3a7c10348cc37e32bbb0f4ab28bf38eb0e9",
+    "drivers/infiniband/core/uverbs_ioctl.c": "927ca34e6d5cacbd59ea5e0078ed6a7ee9e954f8cf9b20b1ae618726fbdc35d9",
+    "drivers/infiniband/core/uverbs_main.c": "e7d80bd4820f3c9666c35c9b299fc25479ac89584f6e7a1a9174e4788b12aefe",
+    "drivers/infiniband/core/uverbs_marshall.c": "75e0c05898b9eb7a9bbfa2afe0a2abf35d0174b97eba44014a16c97a02ef01b1",
+    "drivers/infiniband/core/uverbs_std_types.c": "a52722e8b9ab5e7870e655b1c801ea22f1211c1959d288fcd6f72e2dcc1e4ccf",
+    "drivers/infiniband/core/uverbs_std_types_async_fd.c": "4aae381c732aece6e322b23c4e6f3215e5ea21c1ae865819ec669f3f862e0da2",
+    "drivers/infiniband/core/uverbs_std_types_counters.c": "3dac936be71425f8bed0b207e3d32eafa66faebb9521e073bb4b5bf0c28fce66",
+    "drivers/infiniband/core/uverbs_std_types_cq.c": "0c58f38ecbd09a0d16d2e456880b2bdb6b0c32f794f9a9f0bb964a9881d29b8f",
+    "drivers/infiniband/core/uverbs_std_types_dm.c": "4e7eb38f66c675da74dcde371d006eb655b1cfa671b0dbce7914c020cad4079a",
+    "drivers/infiniband/core/uverbs_std_types_dmabuf.c": "41d7dac2f77084a6a38c6a644ad2465b04524366c2690d5186821a76808dd954",
+    "drivers/infiniband/core/uverbs_std_types_dmah.c": "61798f4fdc67c499cdb1806997d9c1e808ce8324cb973933517a3361c7a99b67",
+    "drivers/infiniband/core/uverbs_std_types_flow_action.c": "5090476e70285158deecbcd1118cf1c35ff6774798b4f9e6ed0a0b782b40696e",
+    "drivers/infiniband/core/uverbs_std_types_mr.c": "80dc1ce415950a96fa23d57fba326c3307d588c79f2a4b4dbaf1943f7628406e",
+    "drivers/infiniband/core/uverbs_std_types_wq.c": "6f800672b40a22753cc41ec6562707e1569292f2257a4803c3a9843046a65515",
+    "drivers/thunderbolt/Kconfig": "e9217e080dd7e3ec3f33a0225d6134581de9a2c2fd4799527c7cba6dc4dc7004",
+    "drivers/thunderbolt/Makefile": "1d60c749300e1fa36cd4079eb47171208c4b73fcb7924386dfd0f23fd42a6305",
+    "drivers/thunderbolt/acpi.c": "6f381cb34d3bcb7a5ff5a7bc1900b0942e57c547e9874ac5f9c1b42c732cc115",
+    "drivers/thunderbolt/cap.c": "306783d0e2744a2d3821e83127872d8ce93e19dccb74802bbaf3654fdbdb6262",
+    "drivers/thunderbolt/clx.c": "951d639799ff858669b6592b6f864548290bc67453064882d018d5f168d80b50",
+    "drivers/thunderbolt/configfs.c": "9fed531a2746927b980a780bd08e5862d61af96363fef0bd7594506404a315b0",
+    "drivers/thunderbolt/ctl.c": "82454a95f67942bbe6a3990cb9f3f54a4e5d8229020f4c95d4277f2ae1aee808",
+    "drivers/thunderbolt/ctl.h": "eb6155d43113ff27744a7f4f91e984fbfe5227bd073f466e122cc4315b8e33dd",
+    "drivers/thunderbolt/dma_port.c": "f41aeccbc7d169c275ce7baeeb81a729b52b6cd4f5ad5ae69501609ab180b781",
+    "drivers/thunderbolt/dma_port.h": "7b371315f1557b6c1e2019007f10d7f5ffefe4cc8f3d79230d9dc131fc72a3f4",
+    "drivers/thunderbolt/eeprom.c": "92828ad41977fb67eae44b0907b79a83960f63e42fecef6abfb0a56940e3271b",
+    "drivers/thunderbolt/icm.c": "cce0970d8ea1804fb6bf1e25319760d1988a642a3bce25221805479d147804dc",
+    "drivers/thunderbolt/lc.c": "e73be4c2e792cd6700c99a420b62ac8ba5a00d8c89ae1f7607025de54889a8c2",
+    "drivers/thunderbolt/nhi.h": "f0026407a0005510e34cb331dba9b4a360bb93bdb5c63cd0cec0f2273fdc1e5c",
+    "drivers/thunderbolt/nhi_regs.h": "e98150dae51b46c1d83d92c0de0fe2b925e61e220a1a14d8cd200a153fc81e45",
+    "drivers/thunderbolt/nvm.c": "dc213632f1112fa8f7e609693e345912a3cc4a6a40c5a11d1f66ef56729ce82f",
+    "drivers/thunderbolt/path.c": "06454cb34668f0d0de261de82e9ecd0e91fa04ce8ad24e7e4e0a99fbbf230aa0",
+    "drivers/thunderbolt/property.c": "5033b080f583327da6b3b5a55a69821cf7f6059d83c4a80ab93d7a81c835c76e",
+    "drivers/thunderbolt/quirks.c": "9de4b82176e4afef3feab50bf14c0186d1810769d10f20eb698f3dceac5ed836",
+    "drivers/thunderbolt/retimer.c": "f6a47db9d03c21dc85621284f05a07edb83e2952596f41daa97de46eb7e9617a",
+    "drivers/thunderbolt/sb_regs.h": "4095068409b089077452ab10e1f6df62a715df6e02990f07bf990c23e9f1f475",
+    "drivers/thunderbolt/tb_msgs.h": "553b546d7945f268c08659863813e897bf12e7ebd89b6da9fb9805fcc067b602",
+    "drivers/thunderbolt/tb_regs.h": "44fa3c1df358a675f23c3fd86af7467fd0541aa8f4822c116d2eb81b0f566300",
+    "drivers/thunderbolt/test.c": "7ca9f5c0062d80cd0db81b4bb7adeb5b15a925bfdf9e3a712274c0cb769afc15",
+    "drivers/thunderbolt/tmu.c": "8da50d436f2fddd7ab9cddb8eb288133b0703262cca26a0bb36b0fd4d35c7874",
+    "drivers/thunderbolt/trace.h": "6fbfc8cd5d580e8807da0f4f05b6b2276f7f514d6b7729ce0ef25640f201452d",
+    "drivers/thunderbolt/tunnel.h": "3819b77c0a477815c2075c2658027f880bdc6139e85ea1c35cde5d1672a41f69",
+    "drivers/thunderbolt/usb4.c": "bd8b943a5ab4eeb59ad0f8151fd45a748657cd461d945509cef1a029320597e5",
+    "drivers/thunderbolt/usb4_port.c": "c3982c0f7d8a697052d47028381259fbeb1594091b08d397c5c1220618eab49c",
+    "include/linux/dma-buf.h": "a2f08d4d8e4b99943f8f53a0c25943d9c09ecd6f9d052525daed5283822e9092",
+    "include/linux/scatterlist.h": "4efc830aeeba095c52e6ae8acdeeaaace906ac0ba4e2cd109412c2103b1d9fdf",
+    "include/rdma/frmr_pools.h": "783f88c29c334786b570eba639d44004e4e28119c300b0e5b4d938ce1ef91327",
+    "include/rdma/ib.h": "2a2d9ab8c7dd5d505ed0d9b2009087532792e4eacab67f4f169308521c2e3832",
+    "include/rdma/ib_addr.h": "00cd5f8c58a1ae62f25e0f8b0d17cbd62c5bc6a7225618a61c68b596ebe98141",
+    "include/rdma/ib_cache.h": "f7cfb07049e5c73243fd7d377e54fcc7917b97d44e9033d137ddc3197fc6e29c",
+    "include/rdma/ib_cm.h": "e421ef55e8cb5ec9d50f117fff48f09a6f7ea8681639fa43dc743290124e38a4",
+    "include/rdma/ib_hdrs.h": "94fcef8ace5613409a919e82cbba5c7a20f4bcfaf706477c87d9c7f97f280f08",
+    "include/rdma/ib_mad.h": "2c651c55031fc46d7ac12d201e5d86cfbdf09627a2e73d4614fc74e7cf435321",
+    "include/rdma/ib_marshall.h": "077e9d3ed51284abda596e67aecc8d9867691d7eaff06187737d5b42d23a3def",
+    "include/rdma/ib_pack.h": "d5e1163612641dc3fe16c5a72c863f6272d4cca657cc42ab97cf07d2a9cc4d65",
+    "include/rdma/ib_pma.h": "be3cb43cd1a5be365cfd75fc968ae7b47397c862e32a8d4db054f405f93f9787",
+    "include/rdma/ib_sa.h": "3caaeaaf92f5c8a152d170849500a47c94fbe5f81eb7197e4de51931fa7d2cfc",
+    "include/rdma/ib_smi.h": "fb921a524ae27fec1f39e228d118274d36800aaf16e5945495310c6cd72ab442",
+    "include/rdma/ib_sysfs.h": "df19b36466530f67db9bfd8d5395914e12a63a33d51f7bd839fef0700a373498",
+    "include/rdma/ib_ucaps.h": "b61df308aae9eb19c30cfb84a0498cb997e158290b0db625513554e4aad39561",
+    "include/rdma/ib_umem_odp.h": "f380f7a436e3af4da92f1b553bce0d2036a144f595891a8f3175e73f3dce13ea",
+    "include/rdma/iba.h": "f91750ad54e985ff8ce1a6dc486423c9c45da9c413314479b6ef90279f7a8500",
+    "include/rdma/ibta_vol1_c12.h": "7d47fe25d16a97fb1dc4224a8dafab4bc199f6503ea12302a8c3b51e440c2b20",
+    "include/rdma/iter.h": "9b5c16634494b6086c97bda5f30e1f809edecb2e1d8a511fd7577160aca6392c",
+    "include/rdma/iw_cm.h": "b499eff7aeb407281fa50aae4a440afd8d577cf877cba5d6ba3727c757e348f2",
+    "include/rdma/iw_portmap.h": "316ace0dbb61e17498215b87baf31853eea78ef0a3de37e272e6fdb4e8589e7b",
+    "include/rdma/lag.h": "e9ab6e6df2808ced61a66ec0a977577b531615767caa0b6464e65ac8395d7482",
+    "include/rdma/mr_pool.h": "9ba0cdbe4504acce3710a9169a06924713c3cf4667fa99b7e72bf289212d10bd",
+    "include/rdma/opa_addr.h": "75c2ea4784ffaac2331cdfffdb0fb24134dcff6d32dbb7f5af5abd1c3bd0f1c2",
+    "include/rdma/opa_port_info.h": "ed751e3c5179506a0df836112fdcbda309ff167778da9e99f73e90a57af241b2",
+    "include/rdma/opa_smi.h": "ce138decc28baf7a52f85504fa13a3495600cd62f6b29ad0ed57cfb2e98c159e",
+    "include/rdma/rdma_cm.h": "1675fcb06317d4608810f53391aa047e37222192ec0f5909480723f1c36c1e16",
+    "include/rdma/rdma_cm_ib.h": "06ce645d59f4b363c676799ae6ca110ead8558ea91a144980ae3baee5ba8ac63",
+    "include/rdma/rdma_counter.h": "f9229b86b089f542a05568085f9d075805d1b3fe11d23becb65b480d5842d7d7",
+    "include/rdma/rdma_netlink.h": "25dfa6b186a1f3eb1281246fd0e80b92edae92f5b8ad49e9f2c3ba37f5ba4e39",
+    "include/rdma/rdma_vt.h": "dc5e387249d810e810b6a57a5c1e2442f2d8cbcc43a640376b6fd5119c6fa2ab",
+    "include/rdma/rdmavt_cq.h": "df9711257325a60a2cb7e1d3475214d5462d4c9eb59fcc74719de1f627899977",
+    "include/rdma/rdmavt_mr.h": "538a39ccb2bfadcfde36052b700ae10554729a69a6dde49ffd59397b0d8245bd",
+    "include/rdma/rdmavt_qp.h": "9cfd5c9c29db654c7fc43c159b86d018e35bd685d7405fd802e6e5d9ffc3d1a2",
+    "include/rdma/rw.h": "6687cd353cb2e4a2597aa16cbb069b8b0b01858d3a3d50a3ec2628e4982afdfc",
+    "include/rdma/signature.h": "1ff88a15b76860b6c852004e9e385d24f002e34f1f5529ed2ed8added1882497",
+    "include/rdma/tid_rdma_defs.h": "5d87d758d1b10ad35f5d7dd667dc117f9b44e30c3cfe42c977281e300a0ce7f6",
+    "include/rdma/uverbs_ioctl.h": "83e103370275f15ef6eadb56f6c6b40d3746221ead2b043b5e808237adbbfcb3",
+    "include/rdma/uverbs_named_ioctl.h": "e5efb1e96d95977d9e417dea3fccc2241f7ce2c4f76b8b2ada3bc76de73f7f4f",
+    "include/rdma/uverbs_std_types.h": "877147c38c9ec7d75a4a03d7b5a098be4e1824f7386990211cdded6c1045c4ac",
+    "include/rdma/uverbs_types.h": "46646999efcb8463afbd308eac8f39b5255f4500f6eb890547dc1095c2596b0b",
+    "include/uapi/rdma/cxgb4-abi.h": "be0aaa5c3ad06e1f5ad9a0fef1b48e963922ca532882569ef3b724b9c80832c6",
+    "include/uapi/rdma/erdma-abi.h": "e75baf05693c2b884dbc40f78fa1658899c49e5719edf3c2391a0a5dceade4be",
+    "include/uapi/rdma/hfi/hfi1_ioctl.h": "479f9b58412de214b165b3cd636139ab702d070b257c3fc2aa6ceb39bb5923ad",
+    "include/uapi/rdma/hfi/hfi1_user.h": "ad8cac9f6f30ea1496d09e592c309a76b4ca9ebc686e807c67045d6cd67b4856",
+    "include/uapi/rdma/hns-abi.h": "946954fea6d042163853c3dc828e9ca181bebcbaf15819136cb90df91572a04f",
+    "include/uapi/rdma/ib_user_sa.h": "48996dc8f30a2a8138c65355d9a25dd3a519362fa94a5359a6b3283f852e82d9",
+    "include/uapi/rdma/mlx4-abi.h": "805805cb12adcec4075e1efbc3077529443197a8713b719f140bb82cb4c1706f",
+    "include/uapi/rdma/mlx5_user_ioctl_verbs.h": "1bb3403809677fa818d17d4676eb396476c52e9a654582142a1d86a3ff921725",
+    "include/uapi/rdma/mthca-abi.h": "3c26b6617a6107599faa3c1b35eeda04d108233249d9bdc6070f0d2089284d59",
+    "include/uapi/rdma/ocrdma-abi.h": "ce386be004c73032746d2a56867f3533f74b1c56b9e03c19a39c0c7a04681b4a",
+    "include/uapi/rdma/qedr-abi.h": "f675f2460f445d9ee03e93e68f3cd0faadb3d469613a1fab51e57be5c047cb2b",
+    "include/uapi/rdma/rdma_user_cm.h": "b714b0a87d8cff289a5721a97cebaedc4ee8c60c5399566b1ab89082cf4e943e",
+    "include/uapi/rdma/rdma_user_ioctl.h": "612d3491dc13b73b1324fc98845b4fa514a2e9c4cf35284e9be66f2fc10165f0",
+    "include/uapi/rdma/rdma_user_ioctl_cmds.h": "89f85853fba58f7a64ffc3147bf2f57d41cec2373bcfc9b15e4ef2cbbb7c8123",
+    "include/uapi/rdma/rdma_user_rxe.h": "ba3eb964cc53d04a1a3b1aee040c1dea4e22474d24e1570d691c36a12a588559",
+    "include/uapi/rdma/rvt-abi.h": "f577ef13f54fa591f5717a2100bb0a079ce8f8c8a7f47109b1c69efd98e9554a",
+    "include/uapi/rdma/siw-abi.h": "44dcd928174e80b1609d1822514d2e44ac0b4158e416748fd0d8ee38ff8427e9",
+    "include/uapi/rdma/vmw_pvrdma-abi.h": "ce29e9623d0adbc5c933120e1eeec9a2fb54f4794d79afc353a877e58f9fa016"
+  },
+  "nhi_functions": {
+    "ring_work": {
+      "identical": true,
+      "sha256": {
+        "7.2.12": "e308bffc228b1237ea02cd1bcdf5fce61477e9873dd39f6a1c07b95a5192804e",
+        "7.3": "e308bffc228b1237ea02cd1bcdf5fce61477e9873dd39f6a1c07b95a5192804e"
+      }
+    },
+    "__tb_ring_enqueue": {
+      "identical": true,
+      "sha256": {
+        "7.2.12": "4326e3bd1908cbdbe51a8caadb30ad3004f1da1443607fe8b4717ea842a821f4",
+        "7.3": "4326e3bd1908cbdbe51a8caadb30ad3004f1da1443607fe8b4717ea842a821f4"
+      }
+    },
+    "ring_iowrite_cons": {
+      "identical": true,
+      "sha256": {
+        "7.2.12": "95c23cba505ff6b40be08343e8489876c12c743e88838dd4f923f63e60bb93b5",
+        "7.3": "95c23cba505ff6b40be08343e8489876c12c743e88838dd4f923f63e60bb93b5"
+      }
+    },
+    "ring_iowrite_prod": {
+      "identical": true,
+      "sha256": {
+        "7.2.12": "37dc3d8418105180c3ab3043ee8a7209d87595a4e9d78afb540a57798bc9dbf4",
+        "7.3": "37dc3d8418105180c3ab3043ee8a7209d87595a4e9d78afb540a57798bc9dbf4"
+      }
+    },
+    "tb_ring_flush": {
+      "identical": true,
+      "sha256": {
+        "7.2.12": "20b50d69c79835537f9048d15c4acaad8345bf96a4d65935ab1958556fdf8af0",
+        "7.3": "20b50d69c79835537f9048d15c4acaad8345bf96a4d65935ab1958556fdf8af0"
+      }
+    },
+    "tb_ring_throttling": {
+      "identical": true,
+      "sha256": {
+        "7.2.12": "002a14a03937771505d1e041335757563c45b9f5b60b20b6b0d4d8c1d428162c",
+        "7.3": "002a14a03937771505d1e041335757563c45b9f5b60b20b6b0d4d8c1d428162c"
+      }
+    }
+  },
+  "hardware_qualified": false
+}

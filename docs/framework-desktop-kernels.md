@@ -1,5 +1,9 @@
 # Framework Desktop carry-forward: Linux 7.2.10 and 7.2.12
 
+Historical 7.2 delivery evidence, preserved for tonight's `fb05a7d` pin.
+The separate `codex/framework-7-3` candidate adds a
+[7.3 source review and evidence receipt](framework-desktop-7-3.md).
+
 The mecattaf fork preserves lfthht's Framework repair stack at
 `9330fb786a882b8ace61bf330478ee2612048d3b` and ports its opt-in descriptor
 batching to the fleet's **7.2.10 and 7.2.12** kernels. A downgrade to 7.2.6 is
