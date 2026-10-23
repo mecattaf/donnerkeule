@@ -2,8 +2,13 @@
 
 Native USB4 RDMA experiments for **two Framework Desktop motherboards** with
 Ryzen AI Max+ 395 / Radeon 8060S and 128 GB memory per host. This branch contains
-the tested completion, batching, host-DMA, teardown, cache and CQ-capacity repairs
-on Donnerkeule `e4039b6`. The performance knobs remain opt-in.
+lfthht's completion, batching, host-DMA, teardown, cache and CQ-capacity repairs
+on Donnerkeule `e4039b6`, carried forward to the mecattaf fleet's **Linux 7.2.10
+and 7.2.12**. Both fleet kernels build; pair hardware qualification is pending.
+The performance knobs remain opt-in.
+
+**[Kernel port and evidence](docs/framework-desktop-kernels.md)** ·
+**[Tonight's attended qualification commands](docs/framework-desktop-tonight.md)**
 
 **[Framework setup and changes](docs/framework-desktop.md)** ·
 **[Measured results and full chart](bench/results/2026-10-21-framework-desktop/README.md)** ·
@@ -12,7 +17,8 @@ on Donnerkeule `e4039b6`. The performance knobs remain opt-in.
 - Two 40 Gb/s USB4 links; two payload rails per controller; four rails per QP.
 - Short 16 MiB host-memory WRITE preflight: **51.67 / 50.20 Gb/s** forward/reverse.
 - Gufo: five paired repetitions at 16K, 32K, 64K and 128K input; 256 output tokens.
-- Target: x86_64 Linux **7.2.6-070206-generic**, AMD NHI **158d / 158e**.
+- Original measurements: x86_64 Linux **7.2.6-070206-generic**, AMD NHI **158d / 158e**.
+- Batching ABI allowlist: **7.2.6 / 7.2.10 / 7.2.12**, x86_64, same AMD NHIs.
 - Regression tests execute production functions, including timer races, cache
   ownership, MR bounds, posting order and CQ compatibility.
 

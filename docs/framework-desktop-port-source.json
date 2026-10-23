@@ -1,0 +1,8 @@
+{
+  "baseline_revision": "9330fb786a882b8ace61bf330478ee2612048d3b",
+  "hardware_qualified": false,
+  "changes_sha256": {
+    "kernel/verbs_dmabuf.c": "9bfb162e2b2332cf41461c352238a3ed428266dafd730a94987656f291178352",
+    "kernel/compat/framework_ring.h": "f209aedd0bb4f5f0c998944a74fbabe49ca5b40966928d7d3cdb85cf9afce3f7"
+  }
+}

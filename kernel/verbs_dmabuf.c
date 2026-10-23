@@ -26,6 +26,7 @@
 #include "verbs_internal.h"
 #include "verbs_control.h"
 #include "perf.h"
+#include "compat/framework_ring.h"
 
 static bool dmabuf_verbs;
 module_param(dmabuf_verbs, bool, 0444);
@@ -48,11 +49,11 @@ module_param(dmabuf_poll_control, bool, 0444);
 MODULE_PARM_DESC(dmabuf_poll_control,
 	"Also progress existing XDomain control rings while a verbs QP exists; requires dmabuf_poll_us");
 
-/* Opt-in for the verified Linux 7.2.6 / AMD 158d/158e NHI ring ABI. */
+/* Opt-in for the audited stable-kernel / AMD 158d/158e NHI ring ABI. */
 static bool dmabuf_batch_doorbell;
 module_param(dmabuf_batch_doorbell, bool, 0444);
 MODULE_PARM_DESC(dmabuf_batch_doorbell,
-	"Publish a data-ring descriptor group with one MMIO doorbell on verified 7.2.6 AMD NHIs");
+	"Publish a data-ring descriptor group with one MMIO doorbell on audited 7.2.6/7.2.10/7.2.12 x86_64 AMD NHIs");
 static uint dmabuf_post_burst = 16;
 module_param(dmabuf_post_burst, uint, 0444);
 MODULE_PARM_DESC(dmabuf_post_burst, "Frames posted per rail turn, 1..512; default 16");
@@ -187,6 +188,7 @@ void tbv_dmabuf_debugfs_show(struct seq_file *s)
 	seq_printf(s, "dmabuf_copy_chunks: %lld\n", atomic64_read(&dmabuf_copy_chunks));
 	seq_printf(s, "dmabuf_copy_bytes: %lld\n", atomic64_read(&dmabuf_copy_bytes));
 	seq_printf(s, "dmabuf_batch_doorbell: %u\n", dmabuf_batch_doorbell);
+	seq_printf(s, "dmabuf_batch_abi_supported: %u\n", TBV_FRAMEWORK_RING_ABI);
 	seq_printf(s, "dmabuf_post_burst: %u\n", dmabuf_post_burst);
 	seq_printf(s, "dmabuf_bulk_calls: %lld\n", atomic64_read(&dmabuf_bulk_calls));
 	seq_printf(s, "dmabuf_bulk_frames: %lld\n", atomic64_read(&dmabuf_bulk_frames));
@@ -1048,7 +1050,7 @@ static int tbv_dmabuf_batch_alloc(struct tbv_dmabuf_batch *batch,
 }
 
 /*
- * Optional data-ring publication for the verified 7.2.6 AMD 158d/158e NHIs.
+ * Optional data-ring publication for the audited AMD 158d/158e NHI ABI.
  * The ordinary Thunderbolt worker still owns completion and cancellation.
  * No control-channel ring or GPU-direct polling ring uses this helper.
  */
@@ -1070,13 +1072,18 @@ static int tbv_dmabuf_post_bulk(struct tbv_dmabuf_lane *lane, bool tx,
 
 	if (!dmabuf_batch_doorbell || count < 2)
 		return -EAGAIN;
-#if !defined(CONFIG_X86_64) || LINUX_VERSION_CODE != KERNEL_VERSION(7, 2, 6)
+#if !TBV_FRAMEWORK_RING_ABI
 	return -EOPNOTSUPP;
-#endif
+#else
 	BUILD_BUG_ON(sizeof(struct tbv_bulk_desc) != 16);
+	BUILD_BUG_ON(offsetof(struct tbv_bulk_desc, metadata) != 8);
+	BUILD_BUG_ON(offsetof(struct tbv_bulk_desc, timestamp) != 12);
 	BUILD_BUG_ON(sizeof(struct tb_ring) != 184);
 	BUILD_BUG_ON(offsetof(struct tb_ring, descriptors) != 32);
 	BUILD_BUG_ON(offsetof(struct tb_ring, in_flight) != 64);
+	BUILD_BUG_ON(RING_DESC_POSTED != 4 || RING_DESC_INTERRUPT != 8 ||
+		     RING_DESC_COMPLETED != 2 || RING_FLAG_FRAME != 2);
+#endif
 	if (first > lane->count || count > lane->count - first)
 		return -EINVAL;
 	if (!dev_is_pci(ring->nhi->dev))
@@ -1281,6 +1288,10 @@ static bool tbv_dmabuf_ring_ready(struct tb_ring *ring)
 	unsigned long flags;
 	bool ready = true;
 
+#if !TBV_FRAMEWORK_RING_ABI
+	/* Never inspect private descriptor metadata on an unaudited kernel. */
+	return true;
+#endif
 	if (!dmabuf_batch_doorbell || !dev_is_pci(ring->nhi->dev))
 		return true;
 	pdev = to_pci_dev(ring->nhi->dev);
@@ -3002,9 +3013,11 @@ int tbv_dmabuf_start(struct tbv_state *state)
 		return 0;
 	if (!dmabuf_post_burst || dmabuf_post_burst > TBV_DMABUF_BATCH_FRAMES)
 		return -EINVAL;
-#if !defined(CONFIG_X86_64) || LINUX_VERSION_CODE != KERNEL_VERSION(7, 2, 6)
-	if (dmabuf_batch_doorbell)
+#if !TBV_FRAMEWORK_RING_ABI
+	if (dmabuf_batch_doorbell) {
+		pr_err("dmabuf_batch_doorbell requires an audited x86_64 NHI ABI (7.2.6, 7.2.10 or 7.2.12)\n");
 		return -EOPNOTSUPP;
+	}
 #endif
 	if (dmabuf_poll_us && (dmabuf_poll_us < 10 || dmabuf_poll_us > 10000))
 		return -EINVAL;

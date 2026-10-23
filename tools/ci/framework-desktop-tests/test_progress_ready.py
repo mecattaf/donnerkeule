@@ -4,7 +4,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
-from production import source_file, functions
+from production import ROOT, source_file
 
 
 class ProgressReadyTests(unittest.TestCase):
@@ -24,6 +24,11 @@ typedef uint32_t u32;
 #define le32_to_cpu(x) (x)
 #define RING_DESC_COMPLETED 2
 #define PCI_VENDOR_ID_AMD 0x1022
+#ifndef TBV_TEST_OTHER_ARCH
+#define CONFIG_X86_64 1
+#endif
+#define KERNEL_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
+#include "framework_ring.h"
 struct list_head {int nonempty;};
 static bool list_empty(struct list_head *p){return !p->nonempty;}
 struct pci_dev {unsigned vendor,device;bool pci;};
@@ -37,6 +42,7 @@ static struct pci_dev *to_pci_dev(struct pci_dev *p){return p;}
 #define spin_unlock_irqrestore(p,f) do{(void)(f);assert(*(p));*(p)=0;}while(0)
 #include "ready.c"
 int main(void){
+ if (!TBV_FRAMEWORK_RING_ABI) {assert(tbv_dmabuf_ring_ready(NULL));return 0;}
  struct pci_dev d={.vendor=0x1022,.device=0x158d,.pci=true};struct nhi n={.dev=&d};
  struct tbv_bulk_desc desc[10]={0};struct tb_ring r={.nhi=&n,.size=10,.running=true,.descriptors=desc};
  assert(!tbv_dmabuf_ring_ready(&r));r.queue.nonempty=1;assert(tbv_dmabuf_ring_ready(&r));r.queue.nonempty=0;
@@ -59,8 +65,16 @@ int main(void){
 '''
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);(root/'ready.c').write_text(helper);(root/'test.c').write_text(harness)
-            result=subprocess.run([shutil.which('cc'),'-std=gnu11','-O2','-Wall','-Wextra','-Werror',
-                '-I',str(root),str(root/'test.c'),'-o',str(root/'test')],capture_output=True,text=True)
-            self.assertEqual(result.returncode,0,result.stderr)
-            result=subprocess.run([str(root/'test')],capture_output=True,text=True,timeout=10)
-            self.assertEqual(result.returncode,0,result.stderr)
+            for version, other_arch in (("7,2,6", False), ("7,2,10", False),
+                    ("7,2,12", False), ("7,2,11", False), ("7,2,13", False),
+                    ("7,3,0", False), ("7,2,12", True)):
+                with self.subTest(version=version, other_arch=other_arch):
+                    flags = [f'-DLINUX_VERSION_CODE=KERNEL_VERSION({version})']
+                    if other_arch:
+                        flags.append('-DTBV_TEST_OTHER_ARCH')
+                    result=subprocess.run([shutil.which('cc'),'-std=gnu11','-O2','-Wall','-Wextra','-Werror',
+                        '-I',str(root),'-I',str(ROOT/'kernel/compat'),str(root/'test.c'),
+                        '-o',str(root/'test'),*flags],capture_output=True,text=True)
+                    self.assertEqual(result.returncode,0,result.stderr)
+                    result=subprocess.run([str(root/'test')],capture_output=True,text=True,timeout=10)
+                    self.assertEqual(result.returncode,0,result.stderr)

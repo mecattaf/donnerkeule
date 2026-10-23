@@ -1,5 +1,10 @@
 # Framework Desktop: the tested two-cable setup
 
+This page records **lfthht's original 7.2.6 measurements and setup**. The
+mecattaf carry-forward has separate [kernel evidence](framework-desktop-kernels.md)
+and [attended qualification commands](framework-desktop-tonight.md). The
+original source manifest and binary identity below do not describe the port.
+
 This branch carries the changes measured on **two Framework Desktop motherboards**
 with Ryzen AI Max+ 395 APUs and Radeon 8060S GPUs. Each board has 128 GB of unified
 memory at 8000 MT/s. The boards report FRANMFCP06 revision A6 and BIOS 03.04.

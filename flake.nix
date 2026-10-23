@@ -53,6 +53,13 @@
         pkgs.rdma-core.overrideAttrs (old: {
           pname = "rdma-core-usb4";
           patches = (old.patches or [ ]) ++ rdmaCoreUsb4Patches;
+          # Renaming usb4_rdma devices breaks this driver's uverbs lookup.
+          # Preserve kernel names even when this package supplies udev rules.
+          postPatch = (old.postPatch or "") + ''
+            substituteInPlace kernel-boot/rdma-persistent-naming.rules \
+              --replace-fail 'SUBSYSTEM=="infiniband", PROGRAM="rdma_rename' \
+                'SUBSYSTEM=="infiniband", KERNEL!="usb4_rdma*", PROGRAM="rdma_rename'
+          '';
           meta = (old.meta or { }) // {
             maintainers = with pkgs.lib.maintainers; [ georgewhewell ];
           };
@@ -367,6 +374,15 @@
           portable-kernel-patches = mkPortableKernelPatchCheck pkgs;
           script-syntax = mkScriptSyntaxCheck pkgs;
           proto-smoke = mkProtoSmoke pkgs;
+          framework-ring-source =
+            let
+              kernel = pkgs.linuxPackages_7_2.kernel;
+            in
+            pkgs.runCommand "framework-ring-source-${kernel.version}" { } ''
+              ${pkgs.python3}/bin/python3 ${./tools/framework-desktop/audit-kernel.py} \
+                ${kernel.version} ${kernel.src} \
+                --header ${kernel.dev}/lib/modules/${kernel.modDirVersion}/source/include/linux/thunderbolt.h > "$out"
+            '';
           rdma-core-usb4 = pkgsAt.rdma-core-usb4;
           rdma-core-static = pkgsAt.rdma-core-usb4.overrideAttrs (old: {
             cmakeFlags = lib.filter (flag: !(lib.hasPrefix "-DENABLE_STATIC=" flag))
@@ -429,6 +445,22 @@
             meta = {
               maintainers = with pkgs.lib.maintainers; [ georgewhewell ];
             };
+          };
+        }
+        // lib.optionalAttrs isLinux {
+          framework-qualification = pkgs.mkShell {
+            packages = [
+              pkgs.python3
+              pkgs.kmod
+              pkgs.pciutils
+              pkgs.iproute2
+              pkgs.util-linux
+              pkgs.pahole
+              pkgs.openssh
+              pkgs.jq
+              pkgsAt.rdma-core-usb4
+              pkgsAt.perftest
+            ];
           };
         }
       );

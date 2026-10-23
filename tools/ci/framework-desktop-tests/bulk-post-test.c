@@ -11,15 +11,21 @@ typedef uint32_t u32;
 typedef uint64_t __le64;
 typedef uint32_t __le32;
 typedef int64_t atomic64_t;
+#ifndef TBV_TEST_OTHER_ARCH
 #define CONFIG_X86_64 1
+#endif
 #define KERNEL_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
+#ifndef LINUX_VERSION_CODE
 #define LINUX_VERSION_CODE KERNEL_VERSION(7,2,6)
+#endif
+#include "framework_ring.h"
 #define __iomem
 #define U16_MAX UINT16_MAX
 #define PCI_VENDOR_ID_AMD 0x1022
 #define RING_FLAG_FRAME 2
 #define RING_DESC_POSTED 4
 #define RING_DESC_INTERRUPT 8
+#define RING_DESC_COMPLETED 2
 #define GENMASK(h,l) (((UINT32_MAX)>>(31-(h)))&((UINT32_MAX)<<(l)))
 #define BUILD_BUG_ON(c) _Static_assert(!(c), #c)
 #define READ_ONCE(v) (v)
@@ -49,7 +55,10 @@ struct tb_ring {
     void *descriptors;
     uint64_t descriptors_dma;
     struct list_head queue, in_flight;
-    unsigned char unused[88];
+#ifndef TBV_TEST_LAYOUT_EXTRA
+#define TBV_TEST_LAYOUT_EXTRA 0
+#endif
+    unsigned char unused[88 + TBV_TEST_LAYOUT_EXTRA];
     void *start_poll;
     unsigned flags;
     bool is_tx, running;
@@ -92,6 +101,12 @@ int main(void) {
     assert(tbv_dmabuf_post_bulk(&lane,true,0,0)==-EAGAIN);
     assert(tbv_dmabuf_post_bulk(&lane,true,0,4)==-EAGAIN && writes==0);
     dmabuf_batch_doorbell=true;
+    if (!TBV_FRAMEWORK_RING_ABI) {
+        assert(tbv_dmabuf_post_bulk(&lane,true,0,4)==-EOPNOTSUPP);
+        assert(writes==0 && barriers==0 && ring.head==6);
+        assert(list_empty(&ring.in_flight));
+        return 0;
+    }
     assert(tbv_dmabuf_post_bulk(&lane,true,4,2)==-EINVAL && writes==0);
     ring.running=false;
     assert(tbv_dmabuf_post_bulk(&lane,true,0,4)==-ESHUTDOWN && writes==0);
