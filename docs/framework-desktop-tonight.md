@@ -85,9 +85,27 @@ Stop and build against that actual kernel rather than bypassing the check.
 
 Record the IOMMU and memory policy; the original measurement used `amd_iommu=off`.
 An enabled IOMMU is a new test condition, not proven by the original numbers.
-Verify `ip route get PEER_ETHERNET_IP` uses Ethernet before removing
+Set `PEER_IP` to the other host's Ethernet IPv4 address, and set `MGMT_IF` to
+the actual local interface from `ip route get "$PEER_IP"`. Verify that route
+uses Ethernet before removing
 `thunderbolt_net`. Save the existing module options and system setup if there
 is already a driver installed; stop its consumers through their normal controls.
+
+The fleet enables its NixOS firewall. Temporarily allow only the peer's
+bootstrap/perftest connections on that Ethernet interface. On each host,
+after setting the two variables above (the expected NixOS backend is iptables):
+
+```sh
+test -e /etc/systemd/system/firewall.service
+sudo iptables -I nixos-fw -i "$MGMT_IF" -s "$PEER_IP" -p tcp -m multiport \
+  --dports 18515,19123,19124,19125 -m comment --comment donnerkeule-qualification \
+  -j nixos-fw-accept
+```
+
+Use those IPv4 addresses for all client/bootstrap commands below. Keep the
+shell's `PEER_IP` and `MGMT_IF` for targeted cleanup; do not reset or restart
+the firewall. A host using a different firewall backend needs an equivalent
+peer/interface-scoped temporary rule before testing.
 
 Inspect every effective `60-rdma-persistent-naming.rules` in
 `/etc/udev/rules.d`, `/run/udev/rules.d` and `/usr/lib/udev/rules.d` if present.
@@ -196,7 +214,7 @@ Immediately run on strix-coordinator, with the worker's **Ethernet** address:
 ```sh
 timeout 30s taskset -c 0 ib_write_bw -d "$HCA" -i 1 -x "$GID" \
   -s 16777216 -p 19123 -I 0 -F --tclass 96 --use_old_post_send \
-  --report_gbits -D 3 -f 1 -q 1 -t 32 -Q 1 strix-worker \
+  --report_gbits -D 3 -f 1 -q 1 -t 32 -Q 1 "$PEER_IP" \
   2>&1 | tee "$RUN_DIR/$LABEL-bw.log"
 ```
 
@@ -219,8 +237,8 @@ raw summary/peers embedded in the snapshots too. Confirm host-direct/cache
 counters increase on eligible large transfers. Perftest proves the host path,
 not GPU DMA-BUF correctness.
 
-For reverse runs swap the server/client roles and use `strix-coordinator`
-as the client argument. Change `LABEL` to `...-reverse-1`, then `...-2` and
+For reverse runs swap the server/client roles; the worker's own `PEER_IP`
+then names strix-coordinator. Change `LABEL` to `...-reverse-1`, then `...-2` and
 `...-3` for each direction. Do not reload between these runs: repeated normal
 QP close must leave the same rails ready and unquarantined.
 
@@ -258,7 +276,7 @@ timeout 180s result-gufo-probe/bin/tbv-gufo-tp2-probe \
 
 # strix-worker (its own verified HCA/GID)
 timeout 180s result-gufo-probe/bin/tbv-gufo-tp2-probe \
-  --tp-rank 1 --tp-bootstrap-host strix-coordinator \
+  --tp-rank 1 --tp-bootstrap-host "$PEER_IP" \
   --tp-rdma-device "$HCA" --tp-gid-index "$GID" \
   --tp-bootstrap-port 18515 --allreduce-bench 1000 \
   2>&1 | tee "$RUN_DIR/$PROFILE-gufo-1.log"
@@ -315,3 +333,11 @@ state from the saved configuration; never remove a pre-existing `tbv0`. For a
 newly created test-only `tbv0`, delete it only after the driver is unloaded.
 No boot configuration is changed by these temporary loads. Persistent NixOS
 integration and full Gufo serving qualification remain separate work.
+
+Remove the temporary firewall rule on each host using the same saved values:
+
+```sh
+sudo iptables -D nixos-fw -i "$MGMT_IF" -s "$PEER_IP" -p tcp -m multiport \
+  --dports 18515,19123,19124,19125 -m comment --comment donnerkeule-qualification \
+  -j nixos-fw-accept
+```
