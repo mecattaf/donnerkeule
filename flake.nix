@@ -424,6 +424,14 @@
                 ${kernel.version} ${kernel.src} \
                 --header ${kernel.dev}/lib/modules/${kernel.modDirVersion}/source/include/linux/thunderbolt.h > "$out"
             '';
+          framework-modules-tree = pkgs.aggregateModules [
+            pkgs.linuxPackages_7_2.kernel.modules
+            pkgsAt.thunderbolt-ibverbs
+          ];
+          framework-modules-tree-7-3 = pkgs.aggregateModules [
+            pkgs.linuxPackages_7_3.kernel.modules
+            pkgsAt.thunderbolt-ibverbs-7-3
+          ];
           rdma-core-static = pkgsAt.rdma-core-usb4.overrideAttrs (old: {
             cmakeFlags =
               lib.filter (flag: !(lib.hasPrefix "-DENABLE_STATIC=" flag)) (old.cmakeFlags or [ ])

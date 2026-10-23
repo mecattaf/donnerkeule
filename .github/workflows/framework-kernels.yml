@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
-      - name: Build both profiling modes and audit kernel source and headers
+      - name: Build both profiling modes, audit source/headers, assemble module tree
         run: bash tools/framework-desktop/build-fleet.sh '${{ matrix.kernel }}'
   provider:
     runs-on: ubuntu-24.04

@@ -47,6 +47,38 @@ and supplies its `.ko.cer` when signing is enabled. The 7.3 VM assembles its
 NixOS module tree and boots successfully; both older kernel targets are also
 rebuilt. This change exists only on the new branch.
 
+### Packaging prerequisite for tonight's frozen 7.2 pin
+
+The same module-tree check also exposes the missing sidecar when the frozen
+`fb05a7d` module is combined with **7.2.12 at nixpkgs `dce1caf`**. Its module
+build succeeds; aggregation fails with
+`cat: extra/thunderbolt_ibverbs.ko.cer: No such file or directory`. PR #610's
+existing toplevel receipts used its older 7.2.10 package set, so they do not
+establish assembly with the new 7.2.12 set.
+
+The 7.2 branch and #610 pin remain unchanged. A reviewed consumer-side repair
+is provided in [`nix/frozen-pin-certificate-fix.nix`](../nix/frozen-pin-certificate-fix.nix).
+It imports the **frozen source pin's** module, replacing only installation with
+Kbuild's signing/install rule. It does not import the 7.3 driver changes.
+For the integration session, copy that small expression into dotfiles and use:
+
+```nix
+hardware.thunderbolt-ibverbs.packageFor = kernelPackages:
+  import ./frozen-pin-certificate-fix.nix {
+    inherit (pkgs) lib;
+    inherit kernelPackages;
+    source = inputs.donnerkeule; # remains fb05a7d
+  };
+```
+
+This exact repair was built against 7.2.12 and its module-tree aggregation
+passed. Its `.text`, `.rodata`, `.data` and `.modinfo` sections match the
+original frozen-pin module byte for byte. Signing changes the complete file's
+hash, which must be recorded again during qualification. The integration
+session must rebuild both actual toplevels after applying the packaging repair.
+**The override has not been applied to dotfiles here.** This is a concrete
+packaging prerequisite, separate from the pending hardware run.
+
 ## Upstream source changes: 7.2.12 → 7.3
 
 Compared the official source archives used by the pinned nixpkgs kernels.
@@ -95,7 +127,8 @@ are in [the 7.3 receipt](framework-desktop-7-3-evidence.json). The
 [packaged BTF output](framework-desktop-7-3-btf.txt) is preserved separately.
 
 - Full module builds with profiling enabled and disabled for 7.3.0, plus
-  regression builds for 7.2.10 and 7.2.12 with both profiling settings.
+  regression builds for 7.2.10 and 7.2.12 with both profiling settings; assembled
+  kernel/module trees pass for all three targets. CI checks assembly too.
 - The source audit checks 16 critical 7.3 files and the actual build header.
   Negative checks reject changed NHI/DMA-BUF source, a different build header,
   and unaudited 7.3.1/7.4. `tb_ring_throttling` is exported.
@@ -134,7 +167,8 @@ nix shell github:NixOS/nixpkgs/dce1caf58d1a943af38b376e824a0d036ec3eea7#gcc \
 ```
 
 `result-fleet-7.3` is the profiling module, `-1` the nonprofiling module,
-and `-2` the source/header audit JSON file. Nix calls the source release
+and `-2` the source/header audit JSON file; `-3` is the assembled module tree.
+Nix calls the source release
 `7.3`, but its modules directory and vermagic are **7.3.0**. To regenerate
 the complete source inventory, supply the unpacked official sources or their
 tar archives:

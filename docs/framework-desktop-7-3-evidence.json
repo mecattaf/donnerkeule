@@ -39,7 +39,8 @@
           "probe_without_id_selected": false
         }
       ],
-      "hardware_qualified": false
+      "hardware_qualified": false,
+      "assembled_modules_tree": "/nix/store/fk8r4chnrdj8bx0acczgqyn617n1p2j5-kernel-modules"
     },
     {
       "kernel": "7.2.12",
@@ -75,7 +76,8 @@
           "probe_without_id_selected": false
         }
       ],
-      "hardware_qualified": false
+      "hardware_qualified": false,
+      "assembled_modules_tree": "/nix/store/pdrcl2jv3dcm0d29b618z1sinfzaqqrv-kernel-modules"
     },
     {
       "kernel": "7.3",
@@ -123,7 +125,8 @@
           "probe_without_id_selected": true
         }
       ],
-      "hardware_qualified": false
+      "hardware_qualified": false,
+      "assembled_modules_tree": "/nix/store/ac5zbkd77jx9asz5767wqcwp4padlf72-kernel-modules"
     }
   ],
   "kernel_7_3": {
@@ -192,7 +195,9 @@
     "syntax": "PASS",
     "port_source": "PASS (50 driver/provider files)",
     "host_module_load": false,
-    "host_activation": false
+    "host_activation": false,
+    "flake_evaluation": "PASS (nix flake check --no-build --system x86_64-linux)",
+    "all_three_modules_trees": "PASS"
   },
   "unproven": [
     "two Framework hosts with both cables",
@@ -204,5 +209,42 @@
     "cable recovery",
     "trusted module certificates/Secure Boot"
   ],
-  "hardware_qualified": false
+  "hardware_qualified": false,
+  "frozen_7_2_pin_packaging": {
+    "source_revision": "fb05a7d210179fa2daaefe3e7bf45bbb4a0b7ff3",
+    "kernel": "7.2.12",
+    "nixpkgs_revision": "dce1caf58d1a943af38b376e824a0d036ec3eea7",
+    "original_package": "/nix/store/viik42i4a2kafvc4wc8j9jaidg4clldx-thunderbolt-ibverbs-0.4.0",
+    "original_aggregation": "FAIL: extra/thunderbolt_ibverbs.ko.cer missing",
+    "repair": "nix/frozen-pin-certificate-fix.nix",
+    "repair_package": "/nix/store/lgxi9ihr21fk1i6glqydqj2n56hfn56d-thunderbolt-ibverbs-0.4.0",
+    "repair_module_sha256": "a1869395bdc09ef7fb527be8de6bf9a8d501a4007ae34340b6b3089abeedb9f5",
+    "repair_modules_tree": "/nix/store/gfri5iz94pcn1mhr407kglys447azw2j-kernel-modules",
+    "repair_aggregation": "PASS",
+    "elf_sections": {
+      ".text": {
+        "identical": true,
+        "old_sha256": "9bb387fe25ebebbd1b572df47ccd773c6d7af7bec284c6f831984b1744a15f39",
+        "new_sha256": "9bb387fe25ebebbd1b572df47ccd773c6d7af7bec284c6f831984b1744a15f39"
+      },
+      ".rodata": {
+        "identical": true,
+        "old_sha256": "1de67c2d7629b3fa51a3b3dc2ccbf5baa4f40fe897219672fa1eed3da512b8bc",
+        "new_sha256": "1de67c2d7629b3fa51a3b3dc2ccbf5baa4f40fe897219672fa1eed3da512b8bc"
+      },
+      ".data": {
+        "identical": true,
+        "old_sha256": "4f4077dfc9c253030c43743307fdb88bc5d71e95dca4870c76a4d5820b3ac791",
+        "new_sha256": "4f4077dfc9c253030c43743307fdb88bc5d71e95dca4870c76a4d5820b3ac791"
+      },
+      ".modinfo": {
+        "identical": true,
+        "old_sha256": "74e92a080d4adbbc186ac9ff78e2766917dae3fcd4c8e08b2e95f53795d13d88",
+        "new_sha256": "74e92a080d4adbbc186ac9ff78e2766917dae3fcd4c8e08b2e95f53795d13d88"
+      }
+    },
+    "dotfiles_changed": false,
+    "original_branch_changed": false,
+    "operator_step": "Apply packaging-only consumer override, rebuild both actual 7.2.12 toplevels, record new module hash before qualification."
+  }
 }
