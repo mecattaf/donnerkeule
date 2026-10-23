@@ -53,7 +53,7 @@ MODULE_PARM_DESC(dmabuf_poll_control,
 static bool dmabuf_batch_doorbell;
 module_param(dmabuf_batch_doorbell, bool, 0444);
 MODULE_PARM_DESC(dmabuf_batch_doorbell,
-	"Publish a data-ring descriptor group with one MMIO doorbell on audited 7.2.6/7.2.10/7.2.12 x86_64 AMD NHIs");
+	"Publish a data-ring descriptor group with one MMIO doorbell on audited 7.2.6/7.2.10/7.2.12/7.3.0 x86_64 AMD NHIs");
 static uint dmabuf_post_burst = 16;
 module_param(dmabuf_post_burst, uint, 0444);
 MODULE_PARM_DESC(dmabuf_post_burst, "Frames posted per rail turn, 1..512; default 16");
@@ -1092,6 +1092,7 @@ static int tbv_dmabuf_post_bulk(struct tbv_dmabuf_lane *lane, bool tx,
 	if (pdev->vendor != PCI_VENDOR_ID_AMD ||
 	    (pdev->device != 0x158d && pdev->device != 0x158e) ||
 	    !(ring->flags & RING_FLAG_FRAME) || ring->start_poll ||
+	    TBV_FRAMEWORK_RING_NO_INTERRUPT(ring->flags) ||
 	    ring->is_tx != tx || ring->hop <= 0 ||
 	    ring->hop >= ring->nhi->hop_count)
 		goto fallback;
@@ -1288,6 +1289,8 @@ static bool tbv_dmabuf_ring_ready(struct tb_ring *ring)
 	unsigned long flags;
 	bool ready = true;
 
+	if (TBV_FRAMEWORK_RING_NO_INTERRUPT(ring->flags))
+		return false;
 #if !TBV_FRAMEWORK_RING_ABI
 	/* Never inspect private descriptor metadata on an unaudited kernel. */
 	return true;
@@ -3015,7 +3018,7 @@ int tbv_dmabuf_start(struct tbv_state *state)
 		return -EINVAL;
 #if !TBV_FRAMEWORK_RING_ABI
 	if (dmabuf_batch_doorbell) {
-		pr_err("dmabuf_batch_doorbell requires an audited x86_64 NHI ABI (7.2.6, 7.2.10 or 7.2.12)\n");
+		pr_err("dmabuf_batch_doorbell requires an audited x86_64 NHI ABI (7.2.6, 7.2.10, 7.2.12 or 7.3.0)\n");
 		return -EOPNOTSUPP;
 	}
 #endif

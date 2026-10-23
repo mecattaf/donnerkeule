@@ -1,0 +1,94 @@
+struct tb_ring {
+	spinlock_t                 lock;                 /*     0     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	struct tb_nhi *            nhi;                  /*     8     8 */
+	int                        size;                 /*    16     4 */
+	int                        hop;                  /*    20     4 */
+	int                        head;                 /*    24     4 */
+	int                        tail;                 /*    28     4 */
+	struct ring_desc *         descriptors;          /*    32     8 */
+	dma_addr_t                 descriptors_dma;      /*    40     8 */
+	struct list_head           queue;                /*    48    16 */
+	/* --- cacheline 1 boundary (64 bytes) --- */
+	struct list_head           in_flight;            /*    64    16 */
+	struct work_struct         work;                 /*    80    32 */
+	bool                       is_tx:1;              /*   112: 0  1 */
+	bool                       running:1;            /*   112: 1  1 */
+
+	/* XXX 6 bits hole, try to pack */
+	/* XXX 3 bytes hole, try to pack */
+
+	int                        irq;                  /*   116     4 */
+	u8                         vector;               /*   120     1 */
+
+	/* XXX 3 bytes hole, try to pack */
+
+	unsigned int               flags;                /*   124     4 */
+	/* --- cacheline 2 boundary (128 bytes) --- */
+	int                        e2e_tx_hop;           /*   128     4 */
+	u16                        sof_mask;             /*   132     2 */
+	u16                        eof_mask;             /*   134     2 */
+	void                       (*start_poll)(void *); /*   136     8 */
+	void *                     poll_data;            /*   144     8 */
+	unsigned int               interval_nsec;        /*   152     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	wait_queue_head_t          wait;                 /*   160    24 */
+	struct lock_class_key      lock_key;             /*   184     0 */
+
+	/* size: 184, cachelines: 3, members: 24 */
+	/* sum members: 169, holes: 4, sum holes: 14 */
+	/* sum bitfield members: 2 bits, bit holes: 1, sum bit holes: 6 bits */
+	/* last cacheline: 56 bytes */
+};
+
+struct ring_desc {
+	u64                        phys;                 /*     0     8 */
+	u32                        length:12;            /*     8: 0  4 */
+	u32                        eof:4;                /*     8:12  4 */
+	u32                        sof:4;                /*     8:16  4 */
+	enum ring_desc_flags       flags:12;             /*     8:20  4 */
+	u32                        time;                 /*    12     4 */
+
+	/* size: 16, cachelines: 1, members: 6 */
+	/* last cacheline: 16 bytes */
+};
+
+struct tb_nhi {
+	spinlock_t                 lock;                 /*     0     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	struct device *            dev;                  /*     8     8 */
+	const struct tb_nhi_ops  * ops;                  /*    16     8 */
+	void *                     iobase;               /*    24     8 */
+	struct tb_ring * *         tx_rings;             /*    32     8 */
+	struct tb_ring * *         rx_rings;             /*    40     8 */
+	bool                       going_away;           /*    48     1 */
+	bool                       iommu_dma_protection; /*    49     1 */
+
+	/* XXX 6 bytes hole, try to pack */
+
+	struct work_struct         interrupt_work;       /*    56    32 */
+	/* --- cacheline 1 boundary (64 bytes) was 24 bytes ago --- */
+	u32                        hop_count;            /*    88     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	long unsigned int          quirks;               /*    96     8 */
+	struct completion          domain_released;      /*   104    32 */
+
+	/* XXX last struct has 1 hole */
+
+	/* --- cacheline 2 boundary (128 bytes) was 8 bytes ago --- */
+	bool                       host_reset;           /*   136     1 */
+
+	/* size: 144, cachelines: 3, members: 13 */
+	/* sum members: 123, holes: 3, sum holes: 14 */
+	/* padding: 7 */
+	/* member types with holes: 1, total: 1 */
+	/* last cacheline: 16 bytes */
+};

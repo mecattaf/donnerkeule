@@ -34,7 +34,7 @@ static bool list_empty(struct list_head *p){return !p->nonempty;}
 struct pci_dev {unsigned vendor,device;bool pci;};
 struct nhi {struct pci_dev *dev;bool going_away;};
 struct tbv_bulk_desc {uint64_t address;u32 metadata,timestamp;};
-struct tb_ring {struct nhi *nhi;int lock,size,head,tail;bool running,start_poll;void *descriptors;struct list_head queue;};
+struct tb_ring {struct nhi *nhi;int lock,size,head,tail;unsigned flags;bool running,start_poll;void *descriptors;struct list_head queue;};
 static bool dmabuf_batch_doorbell=true;
 static bool dev_is_pci(struct pci_dev *p){return p->pci;}
 static struct pci_dev *to_pci_dev(struct pci_dev *p){return p;}
@@ -42,9 +42,21 @@ static struct pci_dev *to_pci_dev(struct pci_dev *p){return p;}
 #define spin_unlock_irqrestore(p,f) do{(void)(f);assert(*(p));*(p)=0;}while(0)
 #include "ready.c"
 int main(void){
- if (!TBV_FRAMEWORK_RING_ABI) {assert(tbv_dmabuf_ring_ready(NULL));return 0;}
+ struct tb_ring unsupported={0};
+ if (!TBV_FRAMEWORK_RING_ABI) {
+#ifdef RING_FLAG_NO_INTERRUPT
+  unsupported.flags=RING_FLAG_NO_INTERRUPT;assert(!tbv_dmabuf_ring_ready(&unsupported));
+  unsupported.flags=0;
+#endif
+  assert(tbv_dmabuf_ring_ready(&unsupported));return 0;
+ }
  struct pci_dev d={.vendor=0x1022,.device=0x158d,.pci=true};struct nhi n={.dev=&d};
  struct tbv_bulk_desc desc[10]={0};struct tb_ring r={.nhi=&n,.size=10,.running=true,.descriptors=desc};
+#ifdef RING_FLAG_NO_INTERRUPT
+ r.flags=RING_FLAG_NO_INTERRUPT;assert(!tbv_dmabuf_ring_ready(&r));
+ dmabuf_batch_doorbell=false;assert(!tbv_dmabuf_ring_ready(&r));
+ dmabuf_batch_doorbell=true;r.flags=0;
+#endif
  assert(!tbv_dmabuf_ring_ready(&r));r.queue.nonempty=1;assert(tbv_dmabuf_ring_ready(&r));r.queue.nonempty=0;
  for(int tail=0;tail<10;tail++){
   memset(desc,0,sizeof(desc));r.tail=tail;r.head=(tail+3)%10;
@@ -67,11 +79,14 @@ int main(void){
             root=Path(folder);(root/'ready.c').write_text(helper);(root/'test.c').write_text(harness)
             for version, other_arch in (("7,2,6", False), ("7,2,10", False),
                     ("7,2,12", False), ("7,2,11", False), ("7,2,13", False),
-                    ("7,3,0", False), ("7,2,12", True)):
+                    ("7,3,0", False), ("7,3,1", False), ("7,4,0", False),
+                    ("7,2,12", True), ("7,3,0", True)):
                 with self.subTest(version=version, other_arch=other_arch):
                     flags = [f'-DLINUX_VERSION_CODE=KERNEL_VERSION({version})']
                     if other_arch:
                         flags.append('-DTBV_TEST_OTHER_ARCH')
+                    if version in ('7,3,0', '7,3,1', '7,4,0', '7,2,12'):
+                        flags.append('-DRING_FLAG_NO_INTERRUPT=8')
                     result=subprocess.run([shutil.which('cc'),'-std=gnu11','-O2','-Wall','-Wextra','-Werror',
                         '-I',str(root),'-I',str(ROOT/'kernel/compat'),str(root/'test.c'),
                         '-o',str(root/'test'),*flags],capture_output=True,text=True)

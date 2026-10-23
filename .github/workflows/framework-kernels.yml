@@ -2,7 +2,7 @@ name: Framework fleet kernels
 
 on:
   push:
-    branches: [codex/framework-desktop, codex/framework-fleet-kernels]
+    branches: [codex/framework-desktop, codex/framework-fleet-kernels, codex/framework-7-3]
   pull_request:
   workflow_dispatch:
 
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        kernel: [7.2.10, 7.2.12]
+        kernel: [7.2.10, 7.2.12, '7.3']
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31

@@ -2,7 +2,8 @@
   "baseline_revision": "9330fb786a882b8ace61bf330478ee2612048d3b",
   "hardware_qualified": false,
   "changes_sha256": {
-    "kernel/verbs_dmabuf.c": "9bfb162e2b2332cf41461c352238a3ed428266dafd730a94987656f291178352",
-    "kernel/compat/framework_ring.h": "f209aedd0bb4f5f0c998944a74fbabe49ca5b40966928d7d3cdb85cf9afce3f7"
-  }
+    "kernel/verbs_dmabuf.c": "d7590776be54f3466981f75f7402bd3157b74ca4025a0a544611eea3a99a2252",
+    "kernel/compat/framework_ring.h": "5106b3da3e27ddd8333c072f45df1861c64a409f15807997e0b908b3cd0d9469"
+  },
+  "previous_port_revision": "fb05a7d210179fa2daaefe3e7bf45bbb4a0b7ff3"
 }

@@ -38,16 +38,18 @@
         (stockKernel.override {
           pname = "linux-thunderbolt";
           kernelPatches = (stockKernel.kernelPatches or [ ]) ++ integrationThunderboltKernelPatches;
-        }).overrideAttrs (old: {
-          meta = (old.meta or { }) // {
-            maintainers = with pkgs.lib.maintainers; [ georgewhewell ];
-          };
-        });
+        }).overrideAttrs
+          (old: {
+            meta = (old.meta or { }) // {
+              maintainers = with pkgs.lib.maintainers; [ georgewhewell ];
+            };
+          });
       mkThunderboltLinuxPackages = pkgs: pkgs.linuxPackagesFor (mkThunderboltKernel pkgs);
-      rdmaCoreUsb4Patches = map
-        (name: ./packaging/rdma-core-patches + "/${name}")
-        (lib.filter (name: name != "")
-          (lib.splitString "\n" (builtins.readFile ./packaging/rdma-core-patches/series)));
+      rdmaCoreUsb4Patches = map (name: ./packaging/rdma-core-patches + "/${name}") (
+        lib.filter (name: name != "") (
+          lib.splitString "\n" (builtins.readFile ./packaging/rdma-core-patches/series)
+        )
+      );
       mkRdmaCoreUsb4 =
         pkgs:
         pkgs.rdma-core.overrideAttrs (old: {
@@ -148,7 +150,10 @@
           version = "0.4.0";
           src = ./.;
 
-          nativeBuildInputs = [ pkgs.python3 pkgs.git ];
+          nativeBuildInputs = [
+            pkgs.python3
+            pkgs.git
+          ];
 
           dontConfigure = true;
 
@@ -170,13 +175,22 @@
         };
       mkNixosVmSmoke =
         pkgs:
-        { kernelPackages, expectedNativeControl }:
+        {
+          kernelPackages,
+          expectedNativeControl,
+          frameworkProfile ? false,
+        }:
         let
           module = kernelPackages.callPackage ./nix/module.nix { };
           rdmaCoreUsb4 = mkRdmaCoreUsb4 pkgs;
+          moduleOptions =
+            if frameworkProfile then
+              lib.removeSuffix "\n" (builtins.readFile ./tools/framework-desktop/framework.params)
+            else
+              "profile=linux_perf bind_services=1 register_verbs=1";
         in
         pkgs.testers.runNixOSTest {
-          name = "thunderbolt-ibverbs-vm-smoke-${expectedNativeControl}";
+          name = "thunderbolt-ibverbs-vm-smoke-${kernelPackages.kernel.version}-${expectedNativeControl}";
           meta = {
             maintainers = with pkgs.lib.maintainers; [ georgewhewell ];
           };
@@ -196,10 +210,14 @@
             machine.start()
             machine.wait_for_unit("multi-user.target")
             machine.succeed("test $(uname -r) = '${kernelPackages.kernel.modDirVersion}'")
-            machine.succeed("modprobe thunderbolt_ibverbs profile=linux_perf bind_services=1 register_verbs=1")
+            machine.succeed("modprobe thunderbolt_ibverbs ${moduleOptions}")
             machine.succeed("grep '^native_control: ${expectedNativeControl}$' /sys/kernel/debug/thunderbolt_ibverbs/summary")
             machine.succeed("grep '^thunderbolt_ibverbs ' /proc/modules")
             machine.succeed("modinfo thunderbolt_ibverbs")
+            ${lib.optionalString frameworkProfile ''
+              machine.succeed("modinfo -F sig_id thunderbolt_ibverbs | grep -qx PKCS#7")
+              machine.log("candidate module taint: " + machine.succeed("cat /sys/module/thunderbolt_ibverbs/taint").strip())
+            ''}
             machine.succeed("modinfo -F depends thunderbolt_ibverbs | tr ',' '\\n' | grep -qx ib_core")
             machine.succeed("modinfo -F depends thunderbolt_ibverbs | tr ',' '\\n' | grep -qx thunderbolt")
             machine.succeed("modinfo -F depends thunderbolt_ibverbs | tr ',' '\\n' | grep -qx configfs")
@@ -228,6 +246,15 @@
             machine.succeed("rdma link show")
             machine.succeed("ibv_devices")
             machine.succeed("rmmod thunderbolt_ibverbs")
+          ''
+          + lib.optionalString frameworkProfile ''
+            for attempt in range(3):
+                machine.succeed("modprobe thunderbolt_ibverbs ${moduleOptions}")
+                machine.succeed("grep '^dmabuf_batch_abi_supported: 1$' /sys/kernel/debug/thunderbolt_ibverbs/summary")
+                machine.succeed("test $(cat /sys/module/thunderbolt_ibverbs/parameters/dmabuf_poll_us) = 25")
+                machine.succeed("test $(cat /sys/module/thunderbolt_ibverbs/parameters/dmabuf_batch_doorbell) = Y")
+                machine.succeed("rmmod thunderbolt_ibverbs")
+            machine.fail("dmesg | grep -E 'BUG:|WARNING:|Oops:|KASAN:|kernel panic'")
           '';
         };
       mkVerbsSmokeBuild =
@@ -296,6 +323,7 @@
         // lib.optionalAttrs isLinux (
           let
             module = pkgs.linuxPackages_7_2.callPackage ./nix/module.nix { };
+            module73 = pkgs.linuxPackages_7_3.callPackage ./nix/module.nix { };
             thunderboltKernel = mkThunderboltKernel pkgs;
             thunderboltLinuxPackages = mkThunderboltLinuxPackages pkgs;
             moduleForThunderboltKernel = thunderboltLinuxPackages.callPackage ./nix/module.nix { };
@@ -309,6 +337,8 @@
             rdma-core-source = pkgs.rdma-core.src;
             thunderbolt-ibverbs = module;
             thunderbolt-ibverbs-no-profiling = module.override { enableProfiling = false; };
+            thunderbolt-ibverbs-7-3 = module73;
+            thunderbolt-ibverbs-7-3-no-profiling = module73.override { enableProfiling = false; };
             thunderbolt-ibverbs-linux-thunderbolt = moduleForThunderboltKernel;
             tbv-perftest = perftestBench.runner;
           }
@@ -371,6 +401,7 @@
         }
         // lib.optionalAttrs isLinux {
           thunderbolt-ibverbs = pkgsAt.thunderbolt-ibverbs;
+          thunderbolt-ibverbs-7-3 = pkgsAt.thunderbolt-ibverbs-7-3;
           portable-kernel-patches = mkPortableKernelPatchCheck pkgs;
           script-syntax = mkScriptSyntaxCheck pkgs;
           proto-smoke = mkProtoSmoke pkgs;
@@ -384,9 +415,19 @@
                 --header ${kernel.dev}/lib/modules/${kernel.modDirVersion}/source/include/linux/thunderbolt.h > "$out"
             '';
           rdma-core-usb4 = pkgsAt.rdma-core-usb4;
+          framework-ring-source-7-3 =
+            let
+              kernel = pkgs.linuxPackages_7_3.kernel;
+            in
+            pkgs.runCommand "framework-ring-source-${kernel.version}" { } ''
+              ${pkgs.python3}/bin/python3 ${./tools/framework-desktop/audit-kernel.py} \
+                ${kernel.version} ${kernel.src} \
+                --header ${kernel.dev}/lib/modules/${kernel.modDirVersion}/source/include/linux/thunderbolt.h > "$out"
+            '';
           rdma-core-static = pkgsAt.rdma-core-usb4.overrideAttrs (old: {
-            cmakeFlags = lib.filter (flag: !(lib.hasPrefix "-DENABLE_STATIC=" flag))
-              (old.cmakeFlags or [ ]) ++ [ "-DENABLE_STATIC=1" ];
+            cmakeFlags =
+              lib.filter (flag: !(lib.hasPrefix "-DENABLE_STATIC=" flag)) (old.cmakeFlags or [ ])
+              ++ [ "-DENABLE_STATIC=1" ];
           });
           verbs-smoke-build = mkVerbsSmokeBuild pkgs;
         }
@@ -413,6 +454,11 @@
           vm-smoke.nixos = mkNixosVmSmoke pkgs {
             kernelPackages = pkgs.linuxPackages_7_2;
             expectedNativeControl = "legacy";
+          };
+          vm-smoke.nixos-7-3 = mkNixosVmSmoke pkgs {
+            kernelPackages = pkgs.linuxPackages_7_3;
+            expectedNativeControl = "legacy";
+            frameworkProfile = true;
           };
           vm-smoke.nixos-thunderbolt = mkNixosVmSmoke pkgs {
             kernelPackages = mkThunderboltLinuxPackages pkgs;
@@ -470,11 +516,13 @@
         let
           isLinux = prev.stdenv.hostPlatform.isLinux;
           isDarwin = prev.stdenv.hostPlatform.isDarwin;
-          packageArgs = lib.optionalAttrs isLinux {
-            rdma-core-usb4 = final.rdma-core-usb4;
-          } // lib.optionalAttrs isDarwin {
-            inherit (final) apple-sdk_26;
-          };
+          packageArgs =
+            lib.optionalAttrs isLinux {
+              rdma-core-usb4 = final.rdma-core-usb4;
+            }
+            // lib.optionalAttrs isDarwin {
+              inherit (final) apple-sdk_26;
+            };
         in
         {
           thunderbolt-ibverbs-bench-tools = final.callPackage ./nix/bench-tools.nix packageArgs;
