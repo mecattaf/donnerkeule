@@ -56,7 +56,14 @@ nix develop .#framework-qualification
 set -euo pipefail
 ulimit -l unlimited
 KERNEL=$(uname -r)
-case "$KERNEL" in 7.2.10|7.2.12) ;; *) echo "Wrong kernel: $KERNEL"; exit 1;; esac
+case "$KERNEL" in
+  7.2.10) PKGS_REV=94d35c7c05087e8b07373a403c55e97d99ff9af9 ;;
+  7.2.12) PKGS_REV=dce1caf58d1a943af38b376e824a0d036ec3eea7 ;;
+  *) echo "Wrong kernel: $KERNEL"; exit 1 ;;
+esac
+KERNEL_PACKAGE=$(nix eval --raw --impure --expr \
+  "(import (builtins.getFlake \"github:NixOS/nixpkgs/$PKGS_REV\").outPath { system = \"x86_64-linux\"; }).linuxPackages_7_2.kernel.outPath")
+test "$(readlink -f /run/booted-system/kernel)" = "$KERNEL_PACKAGE/bzImage"
 MODULE="$PWD/result-fleet-$KERNEL/lib/modules/$KERNEL/extra/thunderbolt_ibverbs.ko"
 test "$(modinfo -F vermagic "$MODULE" | cut -d' ' -f1)" = "$KERNEL"
 sha256sum "$MODULE" result-gufo-probe/bin/.tbv-gufo-tp2-probe-wrapped
@@ -71,8 +78,12 @@ ip -br address > "$RUN_DIR/ip-addresses"
 date --iso-8601=seconds > "$RUN_DIR/start-time"
 ```
 
-Both AMD NHIs must be `1022:158d` / `1022:158e`, bound to `thunderbolt`. Record
-the IOMMU and memory policy; the original measurement used `amd_iommu=off`.
+Both AMD NHIs must be `1022:158d` / `1022:158e`, bound to `thunderbolt`.
+The kernel store-path comparison above must pass too: matching version text
+alone is insufficient if the new hosts boot a differently configured kernel.
+Stop and build against that actual kernel rather than bypassing the check.
+
+Record the IOMMU and memory policy; the original measurement used `amd_iommu=off`.
 An enabled IOMMU is a new test condition, not proven by the original numbers.
 Verify `ip route get PEER_ETHERNET_IP` uses Ethernet before removing
 `thunderbolt_net`. Save the existing module options and system setup if there
@@ -226,7 +237,10 @@ timeout 30s ib_write_lat -d "$HCA" -i 1 -x "$GID" -s 64 -n 1000 \
 ```
 
 Save stdout/stderr and exit codes with unique labels as above. Counter
-snapshots bracket each check; keep all unexpected errors. A perftest option
+snapshots bracket each check; keep all unexpected errors. Omit `--bulk` from
+the comparisons for these 4 KiB/64-byte checks: a single descriptor correctly
+uses the ordinary posting fallback. Require bulk increments for the large
+16 MiB WRITE and Gufo collective instead. A perftest option
 or validation failure is a failed check, not permission to silently remove it.
 
 ## 5. Gufo TP2 GPU sums, no model files
