@@ -1,0 +1,31 @@
+name: Framework fleet kernels
+
+on:
+  push:
+    branches: [codex/framework-desktop, codex/framework-fleet-kernels]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matching-kernel-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        kernel: [7.2.10, 7.2.12]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - name: Build both profiling modes and audit kernel source and headers
+        run: bash tools/framework-desktop/build-fleet.sh '${{ matrix.kernel }}'
+  provider:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - run: nix build .#rdma-core-usb4 .#perftest .#checks.x86_64-linux.verbs-smoke-build -L
