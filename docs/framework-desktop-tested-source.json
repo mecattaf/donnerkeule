@@ -1,7 +1,7 @@
 {
   "base_revision": "e4039b6778aee5625c0dddf13e3c6477ff9597ce",
   "kernel": "7.2.6-070206-generic",
-  "module_sha256": "5e76733bfe8ec8f233d9a50a6df64f639de35185c3028b24e2cafc0e73a86625",
+  "module_sha256": "0c62484437a192e83d8a8a9cb1ab3169bc9a44ec6feb4b016166cf0677407764",
   "patches": [
     {
       "name": "e4039b6-dmabuf-progress.patch",
@@ -32,7 +32,7 @@
       "sha256": "e3bc0a07905496eceab1827714bf5628b3a12aa170569215c71e01bc70a8bf73"
     }
   ],
-  "module_srcversion": "57FE5E2439711FB49D9723A",
+  "module_srcversion": "BBDB140372B8EC1C925667B",
   "source_sha256": {
     "kernel/apple.c": "87e3c89b4af57de12b5f78a332f646eae28981ff90da32cb063585da0ac6610e",
     "kernel/backend.c": "93b521000200c14d7707f8124f92db8e170cb285035a8b2c29ee58bdac606633",
@@ -41,7 +41,7 @@
     "kernel/core.c": "629fd3c2687d88786a7ecb0215dda6248d92493cf7fe8068e1b4e199994a19c3",
     "kernel/debugfs.c": "78bd637e6ea3fbfac552d60cd7a0c257dd0d76b3965fd8b3208db174a3c4805b",
     "kernel/gpu_direct.c": "3413e0983549a4fecdf0f74c4af329253028811851b92ac8f65d4ab56d6dbff1",
-    "kernel/ibdev.c": "ada70be1e99506669ffaad5ac5e538694f641f507a1485ee2bcd75f2c01be00b",
+    "kernel/ibdev.c": "0744fb4b4b5ed284042124730ccadaaa2021011e8ce59a3f4fa0f6d31927ec7d",
     "kernel/link.c": "7a26296f67ae0cbe3f14b3b2326b0ab526369bff08a0a03f86e2b4f8c3f78feb",
     "kernel/main.c": "b4bcc0c0e4268cc9086d2c16bd9b8f16c5a7020d70f80874bcd4ba3f6e2ed109",
     "kernel/native.c": "d0334b9497a0866068d1eca6828646bb75a3b10056fddca9371029828fc0865a",
@@ -123,7 +123,7 @@
     "provider_changed": false
   },
   "provider_source_sha256": "0571ec84ec38841b5b4ffde533996572db7f24ad6ee576aa67c616cb97697c58",
-  "module_sha256_note": "Original measured binary; new build paths can change the binary hash. Verify source hashes and srcversion instead.",
+  "module_sha256_note": "October 24 capability-only correction built with TBV_PROFILING=0. Build paths can change binary hashes. The October 21 performance baseline is retained separately.",
   "measured_parameters": {
     "arms": [
       "mellanox",
@@ -166,5 +166,23 @@
       "ttm.pages_limit=32505856"
     ],
     "engine_distribution": "The qualified engine image is identified by hash; model files and engine images are not distributed in this repository."
+  },
+  "october_21_measurement_baseline": {
+    "module_sha256": "5e76733bfe8ec8f233d9a50a6df64f639de35185c3028b24e2cafc0e73a86625",
+    "module_srcversion": "57FE5E2439711FB49D9723A",
+    "module_sha256_note": "Original measured binary; new build paths can change the binary hash. Verify source hashes and srcversion instead.",
+    "ibdev_source_sha256": "ada70be1e99506669ffaad5ac5e538694f641f507a1485ee2bcd75f2c01be00b"
+  },
+  "capability_correction": {
+    "date": "2026-10-24",
+    "mode": "dmabuf_verbs=1",
+    "cleared_capabilities": [
+      "IB_MAD",
+      "IB_CM"
+    ],
+    "max_mad_size": 0,
+    "non_dmabuf_mode_unchanged": true,
+    "wire_and_data_path_changed": false,
+    "validation": "bench/results/2026-10-24-port-capabilities/validation.json"
   }
 }
