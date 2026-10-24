@@ -1,7 +1,7 @@
 {
   "base_revision": "e4039b6778aee5625c0dddf13e3c6477ff9597ce",
   "kernel": "7.2.6-070206-generic",
-  "module_sha256": "0c62484437a192e83d8a8a9cb1ab3169bc9a44ec6feb4b016166cf0677407764",
+  "module_sha256": "4b42271eedab95ba196dd6b668673c1e4e3021eb46ad641340c87731f898233f",
   "patches": [
     {
       "name": "e4039b6-dmabuf-progress.patch",
@@ -32,7 +32,7 @@
       "sha256": "e3bc0a07905496eceab1827714bf5628b3a12aa170569215c71e01bc70a8bf73"
     }
   ],
-  "module_srcversion": "BBDB140372B8EC1C925667B",
+  "module_srcversion": "BAF45670669940EC5C9C0CA",
   "source_sha256": {
     "kernel/apple.c": "87e3c89b4af57de12b5f78a332f646eae28981ff90da32cb063585da0ac6610e",
     "kernel/backend.c": "93b521000200c14d7707f8124f92db8e170cb285035a8b2c29ee58bdac606633",
@@ -41,7 +41,7 @@
     "kernel/core.c": "629fd3c2687d88786a7ecb0215dda6248d92493cf7fe8068e1b4e199994a19c3",
     "kernel/debugfs.c": "78bd637e6ea3fbfac552d60cd7a0c257dd0d76b3965fd8b3208db174a3c4805b",
     "kernel/gpu_direct.c": "3413e0983549a4fecdf0f74c4af329253028811851b92ac8f65d4ab56d6dbff1",
-    "kernel/ibdev.c": "0744fb4b4b5ed284042124730ccadaaa2021011e8ce59a3f4fa0f6d31927ec7d",
+    "kernel/ibdev.c": "46ebf6b3f0ee4e287368341e6dd6fcb1c69ef49961c523c70c1aae95a913dfda",
     "kernel/link.c": "7a26296f67ae0cbe3f14b3b2326b0ab526369bff08a0a03f86e2b4f8c3f78feb",
     "kernel/main.c": "b4bcc0c0e4268cc9086d2c16bd9b8f16c5a7020d70f80874bcd4ba3f6e2ed109",
     "kernel/native.c": "d0334b9497a0866068d1eca6828646bb75a3b10056fddca9371029828fc0865a",
@@ -64,7 +64,7 @@
     "kernel/verbs_control.c": "966c7305c0fab80633588c0f6d70a5a5f35c9b4f2051b06fbd57c9b70dbabc75",
     "kernel/verbs_control.h": "053244422b2e2a4b465e240ea3c8afddafed72e9ef81119d7123947d78f66775",
     "kernel/verbs_cq.c": "1c26d23a6ce514d4de7ecf2c89b55ebd4a53b4ba258c3ac948f35fdae9fa7b8a",
-    "kernel/verbs_dmabuf.c": "9db5d83cc4c820272a41f7aa3264478af1715ba34ce45f61d52dc227f61a7621",
+    "kernel/verbs_dmabuf.c": "f16fb64f3a8f962d321d5fe6745d43192d6dd2ca6dc752fa78c07cfa45a455a3",
     "kernel/verbs_dmabuf.h": "1eb8ad45b7a4dd729f37cbe81b767bb73f5ffef98e80e8853093530b49a5e5d9",
     "kernel/verbs_internal.h": "e865931242b11961edd4f5e0e0cc2b5338a7b6b39af694b16b056340f7229ea1",
     "kernel/verbs_mr.c": "8baa730f98aa359886c6837f7a7d59f9ff53b1c9caeba253d510f4bc8e3db755",
@@ -123,7 +123,7 @@
     "provider_changed": false
   },
   "provider_source_sha256": "0571ec84ec38841b5b4ffde533996572db7f24ad6ee576aa67c616cb97697c58",
-  "module_sha256_note": "October 24 capability-only correction built with TBV_PROFILING=0. Build paths can change binary hashes. The October 21 performance baseline is retained separately.",
+  "module_sha256_note": "October 24 opt-in aligned-host receive-credit update, TBV_PROFILING=0, same qualified kernel/provider. Prior capability-only and October 21 performance provenance are retained separately.",
   "measured_parameters": {
     "arms": [
       "mellanox",
@@ -184,5 +184,25 @@
     "non_dmabuf_mode_unchanged": true,
     "wire_and_data_path_changed": false,
     "validation": "bench/results/2026-10-24-port-capabilities/validation.json"
+  },
+  "october_24_capability_baseline": {
+    "module_sha256": "0c62484437a192e83d8a8a9cb1ab3169bc9a44ec6feb4b016166cf0677407764",
+    "module_srcversion": "BBDB140372B8EC1C925667B",
+    "module_sha256_note": "October 24 capability-only correction built with TBV_PROFILING=0. Build paths can change binary hashes. The October 21 performance baseline is retained separately.",
+    "source_sha256": {
+      "kernel/ibdev.c": "0744fb4b4b5ed284042124730ccadaaa2021011e8ce59a3f4fa0f6d31927ec7d",
+      "kernel/verbs_dmabuf.c": "9db5d83cc4c820272a41f7aa3264478af1715ba34ce45f61d52dc227f61a7621"
+    }
+  },
+  "host_credit_update": {
+    "date": "2026-10-24",
+    "parameter": "dmabuf_host_credits=1",
+    "source_default": false,
+    "requires_direct_host_eligibility": true,
+    "minimum_direct_host_bytes": 65536,
+    "wire_changed": false,
+    "provider_changed": false,
+    "gpu_math_changed": false,
+    "validation": "https://github.com/lfthht/donnerkeule/blob/6ec2fb9b85bf91cc7e860c2145d48ac3947e5036/bench/results/2026-10-24-deepseek-host-credits/README.md"
   }
 }

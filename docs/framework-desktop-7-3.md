@@ -47,6 +47,24 @@ and supplies its `.ko.cer` when signing is enabled. The 7.3 VM assembles its
 NixOS module tree and boots successfully; both older kernel targets are also
 rebuilt. This change exists only on the new branch.
 
+### Host credits (branch `codex/framework-7-3-host-credits`)
+
+This branch adds two later lfthht driver commits on top of the 7.3 port:
+[eabc900](https://github.com/lfthht/donnerkeule/commit/eabc900c0730b7167c7b747ac85facd971d332ad)
+(no unsupported management QPs in DMA-BUF mode, `kernel/ibdev.c`) and the
+kernel part of
+[6ec2fb9](https://github.com/lfthht/donnerkeule/commit/6ec2fb9b85bf91cc7e860c2145d48ac3947e5036)
+(the opt-in `dmabuf_host_credits` parameter, `kernel/ibdev.c` and
+`kernel/verbs_dmabuf.c`), with its CI smoke tests. lfthht's benchmark results
+for 6ec2fb9 stay upstream and are not copied here. The lfthht commits between
+9330fb7 and 6ec2fb9 change no file under `kernel/`, `include/`, `proto/` or
+`userspace/`, so `kernel/ibdev.c` equals lfthht's measured 6ec2fb9 file and
+`kernel/verbs_dmabuf.c` differs from it only by the 7.3 hunks above.
+`docs/framework-desktop-tested-source.json` records lfthht's 6ec2fb9
+measurement and `docs/framework-desktop-port-source.json` the 7.3 delta on top
+of it. The README profile (`dmabuf_host_credits=1` with `dmabuf_host_direct=1`)
+is **unqualified on 7.3 hardware**; the 7.2.6 measurement does not carry over.
+
 ### Packaging prerequisite for tonight's frozen 7.2 pin
 
 The same module-tree check also exposes the missing sidecar when the frozen
