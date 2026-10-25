@@ -107,11 +107,47 @@ made by this fork. IOMMU-enabled operation and other memory policies were not
 qualified in this run.
 
 `docs/framework-desktop-tested-source.json` records all 48 kernel/protocol/header
-source hashes and the provider source hash. The original measured module had
-srcversion `57FE5E2439711FB49D9723A`. A fresh build from this branch reproduced
-that srcversion. Module binary hashes can differ because debug/build paths
-differ; the original measured binary hash is retained as provenance. Build once
-for matching hosts and copy identical module bytes to both.
+source hashes and the provider source hash. The October 21 measured module had
+srcversion `57FE5E2439711FB49D9723A`; its provenance is retained under
+`october_21_measurement_baseline`. The October 24 capability correction has
+srcversion `BBDB140372B8EC1C925667B`, retained under
+`october_24_capability_baseline`. The later opt-in host receive-credit build has
+srcversion `BAF45670669940EC5C9C0CA`. Module binary hashes can differ because
+build paths and profiling options differ. Build once for matching hosts and
+copy identical module bytes to both.
+
+### DMA-BUF port capabilities and QP1 messages
+
+With `dmabuf_verbs=1`, QP creation supports RC data queues only. Previously the
+port still advertised kernel MAD and IB connection-management capabilities.
+Linux consequently attempted a GSI management queue and logged
+`Couldn't create ib_mad QP1`, followed by `Couldn't open port 1`, once per rail
+at registration. The latter message describes management initialization.
+
+The October 24 correction clears `RDMA_CORE_CAP_IB_MAD` and
+`RDMA_CORE_CAP_IB_CM` and reports `max_mad_size=0` only in DMA-BUF mode. RoCE v2,
+GID table sizes, addressing, manual RC setup and the transfer path are retained.
+The non-DMA-BUF mode retains its existing management capabilities. No kernel log
+filter or console-level change is used.
+
+The corrected build was loaded on both hosts and retained for automatic startup.
+All four rails became active on each host, with no new QP1/open-port messages.
+Host/GPU SEND and WRITE payloads, guards and two-round MR/QP recreation passed
+in both directions. Short bandwidth results and their limits are recorded in
+[the capability-fix validation](../bench/results/2026-10-24-port-capabilities/validation.json).
+The earlier inference measurements remain the October 21 baseline; inference
+performance was not remeasured for this capability correction.
+
+### Optional aligned-host receive credits
+
+`dmabuf_host_credits=1` lets eligible direct host MRs use the existing receive
+ahead credit mechanism. The switch defaults off. Direct-host DMA must be enabled;
+the 64 KiB minimum, 4 KiB alignment, 256 MiB MR limit and QP/PD/access/lifetime
+checks remain in force. Staged host buffers are not pre-armed. The GPU credit
+path and wire protocol remain unchanged. The [qualified comparison](https://github.com/lfthht/donnerkeule/blob/6ec2fb9b85bf91cc7e860c2145d48ac3947e5036/bench/results/2026-10-24-deepseek-host-credits/README.md)
+records the module, runtime, actual reuse counters and rollback limits. This
+parameter is additional to the base profile below, and was enabled on both
+hosts only after the DeepSeek comparison and Gufo regression checks.
 
 ### Userspace provider
 

@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-24",
+  "purpose": "Validate RC-only DMA-BUF port capability reporting on two Framework Desktop hosts",
+  "kernel": "7.2.6-070206-generic",
+  "driver_base": "codex/framework-desktop at 9330fb7",
+  "source_change": "Clear unsupported kernel MAD/IB CM capability bits and MAD size only when dmabuf_verbs is enabled",
+  "module": {
+    "sha256": "0c62484437a192e83d8a8a9cb1ab3169bc9a44ec6feb4b016166cf0677407764",
+    "srcversion": "BBDB140372B8EC1C925667B",
+    "size": 15109096
+  },
+  "build_profiling": false,
+  "new_qp1_or_open_port_errors": [
+    0,
+    0
+  ],
+  "active_payload_rails_per_host": [
+    4,
+    4
+  ],
+  "connected_usb4_cables": 2,
+  "negotiated_link_gbit_s_per_cable": 40,
+  "integrity": {
+    "memory": [
+      "host",
+      "GPU DMA-BUF"
+    ],
+    "operations": [
+      "SEND",
+      "WRITE"
+    ],
+    "directions": [
+      "host1 to host2",
+      "host2 to host1"
+    ],
+    "bytes": 1048576,
+    "iterations_per_round": 8,
+    "rounds": 2,
+    "payload_guards_and_mr_qp_recreation": "passed",
+    "all_cases": 8,
+    "transport_error_deltas": 0
+  },
+  "post_startup_reload_integrity": {
+    "operation": "WRITE",
+    "memory": "host",
+    "bytes": 16777216,
+    "iterations_per_round": 4,
+    "rounds": 2,
+    "directions": 2,
+    "both_cable_payload_counters": "increased",
+    "passed": true
+  },
+  "bandwidth": {
+    "operation": "WRITE",
+    "memory": "host",
+    "bytes": 16777216,
+    "queue_pairs": 1,
+    "tx_depth": 32,
+    "every_wr_signaled": true,
+    "process_seconds": 3,
+    "central_measurement_seconds": 1,
+    "repetitions_per_direction": 1,
+    "gbit_s_host1_to_host2": 41.34,
+    "gbit_s_host2_to_host1": 41.74,
+    "both_cable_payload_counters": "increased"
+  },
+  "regressions": "tools/ci/check-syntax.py and tools/ci/run-smoke.py passed, including 8 Framework Desktop production-helper tests",
+  "limits": [
+    "Short correctness and connectivity validation; not a paired performance comparison.",
+    "No inference performance rerun or full benchmark.",
+    "Existing historical kernel messages remain in the journal; new registration emits none of the QP1/open-port messages."
+  ]
+}

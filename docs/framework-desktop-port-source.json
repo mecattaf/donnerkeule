@@ -1,9 +1,9 @@
 {
-  "baseline_revision": "9330fb786a882b8ace61bf330478ee2612048d3b",
+  "baseline_revision": "6ec2fb9b85bf91cc7e860c2145d48ac3947e5036",
   "hardware_qualified": false,
   "changes_sha256": {
-    "kernel/verbs_dmabuf.c": "d7590776be54f3466981f75f7402bd3157b74ca4025a0a544611eea3a99a2252",
+    "kernel/verbs_dmabuf.c": "db3064944160dc4dd334a772be4a79fe9a1fdf60e28a7ee858ae8577186f8f2d",
     "kernel/compat/framework_ring.h": "5106b3da3e27ddd8333c072f45df1861c64a409f15807997e0b908b3cd0d9469"
   },
-  "previous_port_revision": "fb05a7d210179fa2daaefe3e7bf45bbb4a0b7ff3"
+  "previous_port_revision": "a36a6cc2b8a36e59e0ada17578b52d57849bdf07"
 }
